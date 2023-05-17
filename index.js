@@ -1,11 +1,10 @@
 const express = require("express");
 const app = express();
-const port = 3000;
 
 app.get("/", (req, res) => {
-  res.send("Halo Express!");
+  res.send("(TESTING CLOUD RUN) Halo Express!");
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+app.listen(process.env.PORT || 5000, () => {
+  console.log(`App listening on port 5000`);
 });
