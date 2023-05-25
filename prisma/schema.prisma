@@ -1,0 +1,245 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum status {
+  publish
+  unpublish
+}
+
+model User {
+  id     Int     @id @default(autoincrement())
+  uuid   String  @unique
+  email  String  @unique
+  name   String?
+  gender String?
+  age    Int?
+  wigth  Float?
+  height Float?
+  budget Int?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  userDetail UserDetail?
+}
+
+model DiseaseHistory {
+  id          Int     @id @default(autoincrement())
+  uuid        String  @unique
+  name        String
+  description String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  UserDetail UserDetail[]
+}
+
+model Allergy {
+  id          Int     @id @default(autoincrement())
+  uuid        String  @unique
+  name        String
+  description String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  UserDetail UserDetail[]
+}
+
+model ActivityFactor {
+  id          Int     @id @default(autoincrement())
+  uuid        String  @unique
+  name        String
+  description String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  UserDetail UserDetail[]
+}
+
+model StressFactor {
+  id          Int     @id @default(autoincrement())
+  uuid        String  @unique
+  name        String
+  description String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  UserDetail UserDetail[]
+}
+
+model UserDetail {
+  id   Int    @id @default(autoincrement())
+  uuid String @unique
+
+  userId           Int  @unique
+  diseaseHistoryId Int?
+  allergyId        Int?
+  activityFactorId Int?
+  stressFactorId   Int?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  user           User            @relation(fields: [userId], references: [id])
+  diseaseHistory DiseaseHistory? @relation(fields: [diseaseHistoryId], references: [id])
+  allergy        Allergy?        @relation(fields: [allergyId], references: [id])
+  activityFactor ActivityFactor? @relation(fields: [activityFactorId], references: [id])
+  stressFactor   StressFactor?   @relation(fields: [stressFactorId], references: [id])
+}
+
+model Food {
+  id          Int     @id @default(autoincrement())
+  uuid        String  @unique
+  name        String
+  description String?
+  image       String?
+  price       Float?
+  status      status  @default(publish)
+
+  foodRecipeId Int?
+  foodTagsId   Int?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  FoodDetail     FoodDetail[]
+  FoodRecipe     FoodRecipe?      @relation(fields: [foodRecipeId], references: [id])
+  FoodTags       FoodTags?        @relation(fields: [foodTagsId], references: [id])
+  FoodTagsOnFood FoodTagsOnFood[]
+}
+
+model FoodDetail {
+  id          Int    @id @default(autoincrement())
+  uuid        String @unique
+  fat         Float?
+  protein     Float?
+  carbohidrat Float?
+  calories    Float?
+
+  foodRecipeId Int?
+  foodId       Int
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  Food       Food        @relation(fields: [foodId], references: [id])
+  FoodRecipe FoodRecipe? @relation(fields: [foodRecipeId], references: [id])
+}
+
+model FoodRecipe {
+  id          Int     @id @default(autoincrement())
+  uuid        String  @unique
+  name        String
+  description String?
+  image       String?
+
+  foodId Int
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  Food       Food[]
+  FoodDetail FoodDetail[]
+}
+
+model FoodTags {
+  id          Int     @id @default(autoincrement())
+  uuid        String  @unique
+  name        String
+  description String?
+  image       String?
+
+  foodId Int?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  Food           Food[]
+  FoodTagsOnFood FoodTagsOnFood[]
+}
+
+model FoodTagsOnFood {
+  id   Int    @id @default(autoincrement())
+  uuid String @unique
+
+  foodId     Int
+  foodTagsId Int
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  Food     Food     @relation(fields: [foodId], references: [id])
+  FoodTags FoodTags @relation(fields: [foodTagsId], references: [id])
+}
+
+model Article {
+  id          Int     @id @default(autoincrement())
+  uuid        String  @unique
+  title       String
+  description String?
+  image       String?
+  status      status  @default(publish)
+
+  articleCategoryId Int?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  ArticleCategory          ArticleCategory?           @relation(fields: [articleCategoryId], references: [id])
+  ArticleCategoryOnArticle ArticleCategoryOnArticle[]
+}
+
+model ArticleCategory {
+  id          Int     @id @default(autoincrement())
+  uuid        String  @unique
+  name        String
+  description String?
+  image       String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  Article                  Article[]
+  ArticleCategoryOnArticle ArticleCategoryOnArticle[]
+}
+
+model ArticleCategoryOnArticle {
+  id   Int    @id @default(autoincrement())
+  uuid String @unique
+
+  articleId         Int
+  articleCategoryId Int
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  Article         Article         @relation(fields: [articleId], references: [id])
+  ArticleCategory ArticleCategory @relation(fields: [articleCategoryId], references: [id])
+}
