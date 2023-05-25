@@ -1,0 +1,2 @@
+buka terminal dan jalankan ini
+~ npx prisma migrate dev --name init
