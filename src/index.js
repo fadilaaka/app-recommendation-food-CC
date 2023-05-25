@@ -1,12 +1,33 @@
+/* eslint-disable import/no-extraneous-dependencies */
+require('dotenv').config();
 const express = require('express');
-const env = require('dotenv').config();
+const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
+
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const device = require('express-device');
+
+// eslint-disable-next-line no-underscore-dangle
+global.__basedir = __dirname;
 
 const app = express();
+const PORT = process.env.PORT || 5000;
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
+const corsOptions = {
+	origin: process.env.ORIGIN_CORS,
+};
 
-app.get('/', (req, res) => {
-	res.send('(TESTING CLOUD RUN) Halo Express!');
-});
+app.use(cors());
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(device.capture());
+app.use(morgan('combined', { stream: accessLogStream }));
 
-app.listen(env.EXPRESS_PORT || 5000, () => {
-	console.log(`App listening on port ${env.EXPRESS_PORT || 5000}`);
+require('./routes/routes')(app);
+
+app.listen(PORT, () => {
+	console.log(`App listening on port ${PORT}`);
 });
