@@ -1,2 +1,11 @@
 buka terminal dan jalankan ini
 ~ npx prisma migrate dev --name init
+
+migrate fresh
+~ npx prisma migrate dev
+
+migrate reset
+~ npx prisma migrate reset
+
+push seeder
+~ npx prisma db seed

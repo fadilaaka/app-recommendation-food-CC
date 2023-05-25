@@ -3,6 +3,9 @@
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
+	"prisma": {
+		"seed": "node prisma/seed.js"
+	},
 	"scripts": {
 		"start": "node src/index.js",
 		"test": "jest",
@@ -26,6 +29,7 @@
 		"uuid": "^9.0.0"
 	},
 	"devDependencies": {
+		"@faker-js/faker": "^8.0.1",
 		"@types/node": "^20.2.3",
 		"eslint": "^8.41.0",
 		"eslint-config-airbnb-base": "^15.0.0",
