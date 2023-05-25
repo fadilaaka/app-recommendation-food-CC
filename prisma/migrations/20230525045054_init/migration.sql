@@ -6,7 +6,7 @@ CREATE TABLE `User` (
     `name` VARCHAR(191) NULL,
     `gender` VARCHAR(191) NULL,
     `age` INTEGER NULL,
-    `wigth` DOUBLE NULL,
+    `weight` DOUBLE NULL,
     `height` DOUBLE NULL,
     `budget` INTEGER NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),

@@ -22,7 +22,7 @@ model User {
   name   String?
   gender String?
   age    Int?
-  wigth  Float?
+  weight Float?
   height Float?
   budget Int?
 
