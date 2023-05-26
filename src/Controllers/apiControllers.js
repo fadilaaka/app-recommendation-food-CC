@@ -11,10 +11,10 @@ module.exports = {
 					uuid: true,
 					name: true,
 					gender: true,
-					age: true,
 					weight: true,
 					height: true,
 					budget: true,
+					birthday: true,
 				},
 			});
 			res.status(200).json({
@@ -30,25 +30,26 @@ module.exports = {
 	getUserDetail: async (req, res) => { // Butuh relasional retrieve data table
 		try {
 			const { id } = req.params;
-			const user = await prisma.userDetail.findMany({
+			const user = await prisma.userDetail.findUnique({
 				where: {
 					uuid: id,
 				},
-				include: {
-					diseaseHistoryId: true,
-					allergyId: true,
-					activityFactorId: true,
-					stressFactorId: true,
-					uuid: true,
-				},
-				// select: {
-				// 	userId: true,
-				// 	diseaseHistor: true,
-				// 	allergy: true,
-				// 	activityFactor: true,
-				// 	stressFactor: true,
+				// include: {
 				// 	uuid: true,
+				// 	userId: true,
+				// 	diseaseHistory: true,
+				// 	allergyId: true,
+				// 	activityFactorId: true,
+				// 	stressFactorId: true,
 				// },
+				select: {
+					uuid: true,
+					userId: true,
+					diseaseHistory: true,
+					allergy: true,
+					activityFactor: true,
+					stressFactor: true,
+				},
 			});
 			res.status(200).json({
 				user,
@@ -71,10 +72,10 @@ module.exports = {
 					uuid: true,
 					name: true,
 					gender: true,
-					age: true,
 					weight: true,
 					height: true,
 					budget: true,
+					birthday: true,
 				},
 			});
 			res.status(200).json({

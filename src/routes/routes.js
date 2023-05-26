@@ -10,6 +10,7 @@ module.exports = (app) => {
 	// GET USER
 	router.get('/get-allusers', apiController.getAllUsers);
 	router.get('/get-user/:id', apiController.getOneUser);
+	router.get('/get-user-detail/:id', apiController.getUserDetail);
 	router.get('/activity', apiController.getActivityFactor);
 	router.get('/allergy', apiController.getAllergy);
 	router.get('/article', apiController.getArticle);

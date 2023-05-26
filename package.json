@@ -9,7 +9,7 @@
 	"scripts": {
 		"start": "node src/index.js",
 		"test": "jest",
-		"dev": "nodemon src/index.js"
+		"develop": "nodemon src/index.js"
 	},
 	"author": "",
 	"license": "ISC",
