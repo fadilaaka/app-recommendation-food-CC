@@ -1,8 +1,11 @@
 const { PrismaClient } = require('@prisma/client');
 const { faker } = require('@faker-js/faker');
+const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
 
 const prisma = new PrismaClient();
+const salt = bcrypt.genSaltSync(10);
+const hash = bcrypt.hashSync('12345678', salt);
 
 async function main() {
 	const DiseaseHistory = await prisma.diseaseHistory.createMany(
@@ -158,6 +161,7 @@ async function main() {
 			uuid: uuidv4(),
 			email: faker.internet.email(),
 			name: faker.internet.userName(),
+			password: hash,
 			gender: faker.person.sex(),
 			weight: faker.number.float({ min: 35, max: 100, precision: 0.01 }),
 			height: faker.number.float({ min: 165, max: 190, precision: 0.01 }),

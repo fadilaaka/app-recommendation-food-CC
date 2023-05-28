@@ -10,15 +10,15 @@ module.exports = (app) => {
 	// GET USER
 	router.get('/get-allusers', apiController.getAllUsers);
 	router.get('/get-user/:id', apiController.getOneUser);
-	router.get('/get-user-detail/:id', apiController.getUserDetail);
+	router.get('/get-user-detail/:uuid', apiController.getUserDetail);
 	router.get('/activity', apiController.getActivityFactor);
 	router.get('/allergy', apiController.getAllergy);
 	router.get('/article', apiController.getArticle);
 	router.get('/disease', apiController.getDiseaseHistory);
 	router.get('/stress', apiController.getStressFactor);
 
+	router.get('/login', apiController.getLogin);
 	// router.get('/get-user/:id', checkValidJWT, apiController.getOneUser);
-
 	router.get('/protected', checkValidJWT, (req, res) => {
 		res.send('Halo Express! (Protected)');
 	});
