@@ -17,7 +17,7 @@ module.exports = (app) => {
 	router.get('/disease', apiController.getDiseaseHistory);
 	router.get('/stress', apiController.getStressFactor);
 
-	router.get('/login', apiController.getLogin);
+	router.post('/login', apiController.postLogin);
 	// router.get('/get-user/:id', checkValidJWT, apiController.getOneUser);
 	router.get('/protected', checkValidJWT, (req, res) => {
 		res.send('Halo Express! (Protected)');

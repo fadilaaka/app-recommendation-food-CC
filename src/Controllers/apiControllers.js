@@ -188,7 +188,7 @@ module.exports = {
 		}
 	},
 
-	getLogin: async (req, res) => {
+	postLogin: async (req, res) => {
 		try {
 			const { email, password } = req.body;
 			const user = await prisma.user.findUnique({
