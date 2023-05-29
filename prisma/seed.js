@@ -156,7 +156,7 @@ async function main() {
 		},
 	});
 
-	const user = await prisma.user.create({
+	await prisma.user.create({
 		data: {
 			uuid: uuidv4(),
 			email: faker.internet.email(),
@@ -170,15 +170,29 @@ async function main() {
 			userDetail: {
 				create: {
 					uuid: uuidv4(),
-					diseaseHistory: {
-						connect: {
-							id: disease.id,
-						},
+					diseaseHistories: {
+						create: [
+							{
+								uuid: uuidv4(),
+								diseaseHistory: {
+									connect: {
+										id: disease.id,
+									},
+								},
+							},
+						],
 					},
-					allergy: {
-						connect: {
-							id: allergy.id,
-						},
+					allergies: {
+						create: [
+							{
+								uuid: uuidv4(),
+								allergy: {
+									connect: {
+										id: allergy.id,
+									},
+								},
+							},
+						],
 					},
 					activityFactor: {
 						connect: {
@@ -195,8 +209,66 @@ async function main() {
 		},
 	});
 
-	console.log({
-		user, DiseaseHistory, AllergyList, StressFactor, ActivityFactor,
+	// user login
+	await prisma.user.create({
+		data: {
+			uuid: uuidv4(),
+			email: 'test@gmail.com',
+			name: faker.internet.userName(),
+			password: bcrypt.hashSync('test', salt),
+			gender: faker.person.sex(),
+			weight: faker.number.float({ min: 35, max: 100, precision: 0.01 }),
+			height: faker.number.float({ min: 165, max: 190, precision: 0.01 }),
+			birthday: faker.date.birthdate(),
+			budget: faker.number.int({ min: 10000, max: 100000 }),
+			userDetail: {
+				create: {
+					uuid: uuidv4(),
+					diseaseHistories: {
+						create: [
+							{
+								uuid: uuidv4(),
+								diseaseHistory: {
+									connect: {
+										id: 1,
+									},
+								},
+							},
+							{
+								uuid: uuidv4(),
+								diseaseHistory: {
+									connect: {
+										id: 2,
+									},
+								},
+							},
+						],
+					},
+					allergies: {
+						create: [
+							{
+								uuid: uuidv4(),
+								allergy: {
+									connect: {
+										id: allergy.id,
+									},
+								},
+							},
+						],
+					},
+					activityFactor: {
+						connect: {
+							id: Stress.id,
+						},
+					},
+					stressFactor: {
+						connect: {
+							id: Activity.id,
+						},
+					},
+				},
+			},
+		},
 	});
 }
 
