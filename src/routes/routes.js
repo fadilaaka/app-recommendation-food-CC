@@ -4,7 +4,7 @@ const apiController = require('../Controllers/apiControllers');
 module.exports = (app) => {
 	const router = require('express').Router();
 
-	const checkValidJWT = require('../Middlewares/userAuthorizationMiddleware');
+	// const checkValidJWT = require('../Middlewares/userAuthorizationMiddleware');
 
 	// POST account
 	// GET USER
@@ -17,11 +17,11 @@ module.exports = (app) => {
 	router.get('/disease', apiController.getDiseaseHistory);
 	router.get('/stress', apiController.getStressFactor);
 
-	router.post('/login', apiController.postLogin);
+	// router.post('/login', apiController.postLogin);
 	// router.get('/get-user/:id', checkValidJWT, apiController.getOneUser);
-	router.get('/protected', checkValidJWT, (req, res) => {
-		res.send('Halo Express! (Protected)');
-	});
+	// router.get('/protected', checkValidJWT, (req, res) => {
+	// 	res.send('Halo Express! (Protected)');
+	// });
 
 	app.use('/api/v1', router);
 };
