@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
+const bcrypt = require('bcryptjs');
 
 module.exports = {
 	// GET
@@ -27,12 +28,13 @@ module.exports = {
 		}
 	},
 
-	getUserDetail: async (req, res) => { // Butuh relasional retrieve data table
+	getUserDetail: async (req, res) => {
+		// Butuh relasional retrieve data table
 		try {
-			const { id } = req.params;
+			const { uuid } = req.params;
 			const user = await prisma.userDetail.findUnique({
 				where: {
-					uuid: id,
+					uuid,
 				},
 				// include: {
 				// 	uuid: true,
@@ -44,7 +46,7 @@ module.exports = {
 				// },
 				select: {
 					uuid: true,
-					userId: true,
+					user: true,
 					diseaseHistory: true,
 					allergy: true,
 					activityFactor: true,
@@ -178,6 +180,53 @@ module.exports = {
 			});
 			res.status(200).json({
 				allergy,
+			});
+		} catch (error) {
+			res.status(500).json({
+				message: `Internal Server Error: ${error}`,
+			});
+		}
+	},
+
+	postLogin: async (req, res) => {
+		try {
+			const { email, password } = req.body;
+			const user = await prisma.user.findUnique({
+				where: {
+					email,
+				},
+			});
+			const detailuser = await prisma.userDetail.findUnique({
+				where: {
+					userId: user.id,
+				},
+				select: {
+					uuid: true,
+					user: true,
+					diseaseHistory: true,
+					allergy: true,
+					activityFactor: true,
+					stressFactor: true,
+				},
+			});
+			if (!user) {
+				return res
+					.status(500)
+					.json({ message: 'Invalid email & password' });
+			}
+			const isPasswordMatch = await bcrypt.compare(
+				password,
+				user.password,
+			);
+			if (!isPasswordMatch) {
+				return res
+					.status(500)
+					.json({ message: "Password doesn't match" });
+			}
+			res.status(200).json({
+				message: 'Success Login Akun',
+				user,
+				detailuser,
 			});
 		} catch (error) {
 			res.status(500).json({
