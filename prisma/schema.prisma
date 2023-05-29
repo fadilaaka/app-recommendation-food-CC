@@ -16,13 +16,13 @@ enum status {
 }
 
 model User {
-    id       Int      @id @default(autoincrement())
-    uuid     String   @unique
-    email    String   @unique
+    id       Int       @id @default(autoincrement())
+    uuid     String    @unique
+    email    String    @unique
     password String?
     name     String?
     gender   String?
-    birthday DateTime
+    birthday DateTime?
     weight   Float?
     height   Float?
     budget   Int?

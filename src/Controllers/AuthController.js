@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { v4: uuidv4 } = require('uuid');
 
 const prisma = new PrismaClient();
 
@@ -145,6 +146,7 @@ const registerAttempt = async (req, res) => {
 		const newUser = await prisma.user.create({
 			data: {
 				email,
+				uuid: uuidv4(),
 				password: hashedPassword,
 			},
 		});
@@ -164,6 +166,7 @@ const registerAttempt = async (req, res) => {
 			token,
 		});
 	} catch (error) {
+		console.log(error)
 		return res.status(500).json({ status: 'failed', code: 500, message: `Internal Server Error: ${error}` });
 	}
 };
