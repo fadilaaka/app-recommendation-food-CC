@@ -43,7 +43,8 @@ model DiseaseHistory {
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
-    UserDetail UserDetail[]
+    UserDetail                 UserDetail[]
+    userDetailOnDiseaseHistory userDetailOnDiseaseHistory[]
 }
 
 model Allergy {
@@ -56,7 +57,8 @@ model Allergy {
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
-    UserDetail UserDetail[]
+    UserDetail         UserDetail[]
+    userDetailOnAlergy userDetailOnAlergy[]
 }
 
 model ActivityFactor {
@@ -99,11 +101,43 @@ model UserDetail {
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
-    user           User            @relation(fields: [userId], references: [id])
-    diseaseHistory DiseaseHistory? @relation(fields: [diseaseHistoryId], references: [id])
-    allergy        Allergy?        @relation(fields: [allergyId], references: [id])
-    activityFactor ActivityFactor? @relation(fields: [activityFactorId], references: [id])
-    stressFactor   StressFactor?   @relation(fields: [stressFactorId], references: [id])
+    user                       User                         @relation(fields: [userId], references: [id])
+    Allergy                    Allergy?                     @relation(fields: [allergyId], references: [id])
+    diseaseHistory             DiseaseHistory?              @relation(fields: [diseaseHistoryId], references: [id])
+    activityFactor             ActivityFactor?              @relation(fields: [activityFactorId], references: [id])
+    stressFactor               StressFactor?                @relation(fields: [stressFactorId], references: [id])
+    userDetailOnAlergy         userDetailOnAlergy[]
+    userDetailOnDiseaseHistory userDetailOnDiseaseHistory[]
+}
+
+model userDetailOnAlergy {
+    id   Int    @id @default(autoincrement())
+    uuid String @unique
+
+    userDetailId Int
+    allergyId    Int
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+
+    UserDetail UserDetail @relation(fields: [userDetailId], references: [id])
+    Allergy    Allergy    @relation(fields: [allergyId], references: [id])
+}
+
+model userDetailOnDiseaseHistory {
+    id   Int    @id @default(autoincrement())
+    uuid String @unique
+
+    userDetailId     Int
+    diseaseHistoryId Int
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+
+    UserDetail     UserDetail     @relation(fields: [userDetailId], references: [id])
+    DiseaseHistory DiseaseHistory @relation(fields: [diseaseHistoryId], references: [id])
 }
 
 model Food {
