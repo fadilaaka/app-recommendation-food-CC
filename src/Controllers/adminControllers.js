@@ -37,9 +37,30 @@ module.exports = {
 		}
 	},
 
-	// POST
-
-	// UPDATE
-
-	// DELETE
+	viewDashboard: async (req, res) => {
+		try {
+			const users = await prisma.user.findMany();
+			const foods = await prisma.food.findMany();
+			const articles = await prisma.food.findMany();
+			res.status(200).json({
+				users: users.length,
+				foods: foods.length,
+				articles: articles.length,
+			});
+		} catch (error) {
+			res.status(500).json({ message: 'Internal Server Error' });
+		}
+	},
+	viewUsers: async (req, res) => {
+		try {
+			const users = await prisma.user.findMany();
+			res.status(200).json({
+				users,
+			});
+		} catch (error) {
+			res.status(500).json({
+				message: `Internal Server Error : ${error}`,
+			});
+		}
+	},
 };
