@@ -19,7 +19,7 @@ const corsOptions = {
 	origin: process.env.ORIGIN_CORS,
 };
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
