@@ -31,7 +31,8 @@ model User {
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
-    userDetail UserDetail?
+    userDetail             UserDetail?
+    userTokenResetPassword userTokenResetPassword[]
 }
 
 model DiseaseHistory {
@@ -277,4 +278,20 @@ model ArticleCategoryOnArticle {
 
     article         Article         @relation(fields: [articleId], references: [id])
     articleCategory ArticleCategory @relation(fields: [articleCategoryId], references: [id])
+}
+
+model userTokenResetPassword {
+    id   Int    @id @default(autoincrement())
+    uuid String @unique
+
+    userId Int
+    token  String   @unique
+    expire DateTime
+    isUsed Boolean  @default(false)
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+
+    user User @relation(fields: [userId], references: [id])
 }
