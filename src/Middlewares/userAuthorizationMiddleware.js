@@ -1,5 +1,8 @@
 const { auth } = require('express-oauth2-jwt-bearer');
 const jwt = require('jsonwebtoken');
+const { PrismaClient, Prisma } = require('@prisma/client');
+
+const prisma = new PrismaClient();
 
 const checkValidJWT = auth({
 	audience: `${process.env.AUTH0_AUDIENCE}`,
@@ -32,4 +35,37 @@ const verifyToken = (req, res, next) => {
 	}
 };
 
-module.exports = { checkValidJWT, verifyToken };
+const verifyValidTokenReset = async (req, res, next) => {
+	const { token } = req.params;
+
+	try {
+		if (typeof token !== 'undefined') {
+			const userToken = await prisma.userTokenResetPassword.findFirstOrThrow({
+				where: {
+					token,
+				},
+			}).catch((err) => {
+				if (err instanceof Prisma.PrismaClientKnownRequestError) {
+					throw Object.assign(new Error('Token Not Found'), { code: 404 });
+				}
+			});
+
+			if (userToken.isUsed) {
+				throw Object.assign(new Error('Token already used'), { code: 400 });
+			}
+
+			next();
+		} else {
+			throw Object.assign(new Error('Token not provided'), { code: 403 });
+		}
+	} catch (error) {
+		res.status(error.code).json({
+			status: 'failed',
+			code: error.code,
+			message: error.message,
+			data: error.message,
+		});
+	}
+};
+
+module.exports = { checkValidJWT, verifyToken, verifyValidTokenReset };
