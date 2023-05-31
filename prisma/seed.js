@@ -8,6 +8,14 @@ const salt = bcrypt.genSaltSync(10);
 const hash = bcrypt.hashSync('12345678', salt);
 
 async function main() {
+	await prisma.admin.create({
+		data: {
+			uuid: uuidv4(),
+			email: 'admin@gmail.com',
+			password: bcrypt.hashSync('admin123', salt),
+			name: 'admin 1',
+		},
+	});
 	const DiseaseHistory = await prisma.diseaseHistory.createMany(
 		{
 			data: [
@@ -268,6 +276,49 @@ async function main() {
 					},
 				},
 			},
+		},
+	});
+
+	// Artikel
+	const ArticleCategory = await prisma.articleCategory.createMany(
+		{
+			data: [
+				{
+					uuid: uuidv4(),
+					name: 'Nutrisi dan Diet',
+					description: 'Artikel dalam kategori ini membahas tentang konsep dasar nutrisi, makanan sehat, asupan gizi yang diperlukan, diet spesifik, serta panduan untuk mencapai dan menjaga berat badan yang sehat.',
+				},
+				{
+					uuid: uuidv4(),
+					name: 'Resep dan Masakan Sehat',
+					description: 'Kategori ini berfokus pada resep makanan sehat, baik untuk diet khusus maupun untuk menjaga keseimbangan gizi. Artikel dalam kategori ini memberikan ide dan inspirasi dalam memasak makanan sehat yang lezat dan bergizi.',
+				},
+				{
+					uuid: uuidv4(),
+					name: 'Tips Hidup Sehat',
+					description: 'Artikel dalam kategori ini memberikan tips dan saran praktis untuk menjaga gaya hidup sehat secara umum, termasuk pola makan sehat, aktivitas fisik, manajemen stres, tidur yang cukup, dan kebiasaan sehat lainnya.',
+				},
+			],
+			skipDuplicates: true,
+		},
+	);
+
+	const article = await prisma.articleCategory.findFirst({
+		where: {
+			name: 'Resep dan Masakan Sehat',
+		},
+	});
+
+	await prisma.article.create({
+		data: {
+			uuid: uuidv4(),
+			title: 'Tips Menjaga Kebutuhan Gizi',
+			description: 'Tips Menjaga Kebutuhan Gizi adalah panduan praktis yang memberikan informasi tentang pentingnya menjaga asupan gizi yang seimbang dalam kehidupan sehari-hari. Dalam panduan ini, Anda akan menemukan berbagai saran dan strategi yang dapat membantu Anda menjaga pola makan yang sehat dan memenuhi kebutuhan nutrisi tubuh Anda. Mulai dari pemilihan makanan yang tepat hingga cara memasak yang sehat, panduan ini dirancang untuk memberikan pengetahuan yang mudah dipahami dan dapat diterapkan oleh semua orang.\n\nPentingnya menjaga kebutuhan gizi yang adekuat tidak bisa diremehkan. Kebutuhan gizi yang terpenuhi dapat memberikan manfaat yang besar bagi tubuh, termasuk meningkatkan daya tahan tubuh, menjaga kesehatan jantung, meningkatkan konsentrasi dan fungsi otak, serta meningkatkan kualitas tidur. Dalam panduan ini, Anda juga akan menemukan informasi tentang jenis-jenis makanan yang kaya akan nutrisi, seperti sayuran hijau, biji-bijian, dan protein nabati. Selain itu, Anda akan belajar tentang pentingnya memperhatikan jumlah asupan gula dan lemak jenuh dalam diet harian Anda.',
+			image: 'https://stikeshb.ac.id/wp-content/uploads/2022/05/stikeshb-3.jpg',
+			status: 'publish',
+			articleCategoryId: article.id,
+			// connect article
+			// articlecategoryonarticle
 		},
 	});
 }
