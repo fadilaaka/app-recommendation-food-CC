@@ -16,12 +16,12 @@ enum status {
 }
 
 model Admin {
-    id       Int       @id @default(autoincrement())
-    uuid     String    @unique
-    email    String    @unique
+    id       Int     @id @default(autoincrement())
+    uuid     String  @unique
+    email    String  @unique
     password String?
     name     String?
-    
+
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
@@ -34,7 +34,7 @@ model User {
     password String?
     name     String?
     gender   String?
-    birthday DateTime?
+    birthday DateTime? @db.Date
     weight   Float?
     height   Float?
     budget   Int?
@@ -248,7 +248,7 @@ model Article {
     id          Int     @id @default(autoincrement())
     uuid        String  @unique
     title       String
-    description String?
+    description String? @db.LongText
     image       String?
     status      status  @default(publish)
 
