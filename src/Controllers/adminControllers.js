@@ -174,7 +174,7 @@ module.exports = {
 					articleCategoryId: category.id,
 				},
 			});
-			res.status(201).json({ message: 'New article has been published' });
+			res.status(201).json({ message: 'Article has been edited' });
 		} catch (error) {
 			res.status(500).json({
 				message: `Internal Server Error: ${error}`,
@@ -191,6 +191,145 @@ module.exports = {
 				},
 			});
 			res.status(201).json({ message: 'Article has been deleted' });
+		} catch (error) {
+			res.status(500).json({
+				message: `Internal Server Error: ${error}`,
+			});
+		}
+	},
+
+	viewFoods: async (req, res) => {
+		try {
+			const foods = await prisma.foodDetail.findMany({
+				include: {
+					foodRecipe: true,
+					food: {
+						include: {
+							foodTags: true,
+						},
+					},
+				},
+			});
+			res.status(200).json({
+				foods,
+			});
+		} catch (error) {
+			res.status(500).json({
+				message: `Internal Server Error : ${error}`,
+			});
+		}
+	},
+	detailFood: async (req, res) => {
+		try {
+			const { id } = req.params;
+			const idInt = Number(id);
+			const article = await prisma.article.findUnique({
+				where: {
+					id: idInt,
+				},
+				include: {
+					articleCategory: true,
+				},
+			});
+			res.status(200).json({ article });
+		} catch (error) {
+			res.status(500).json({ message: 'Internal Server Error' });
+		}
+	},
+	getFoodCategory: async (req, res) => {
+		try {
+			const category = await prisma.articleCategory.findMany();
+			res.status(200).json({ category });
+		} catch (error) {
+			res.status(500).json({ message: 'Internal Server Error' });
+		}
+	},
+	addFood: async (req, res) => {
+		try {
+			const {
+				title, articleCategoryId, image, description,
+			} = req.body;
+			const category = await prisma.articleCategory.findUnique({
+				where: {
+					id: Number(articleCategoryId),
+				},
+			});
+			const article = await prisma.article.create({
+				data: {
+					uuid: uuidv4(),
+					title,
+					description,
+					image,
+					status: 'publish',
+					articleCategoryId: category.id,
+				},
+			});
+			await prisma.articleCategoryOnArticle.create({
+				data: {
+					uuid: uuidv4(),
+					articleId: article.id,
+					articleCategoryId: category.id,
+				},
+			});
+			res.status(201).json({ message: 'New food has been added' });
+		} catch (error) {
+			res.status(500).json({
+				message: `Internal Server Error: ${error}`,
+			});
+		}
+	},
+	editFood: async (req, res) => {
+		try {
+			const { id } = req.params;
+			const {
+				updateTitle,
+				updateArticleCategoryId,
+				updateImage,
+				updateDescription,
+			} = req.body;
+			const idInt = Number(id);
+			const category = await prisma.articleCategory.findUnique({
+				where: {
+					id: Number(updateArticleCategoryId),
+				},
+			});
+			await prisma.article.update({
+				where: {
+					id: idInt,
+				},
+				data: {
+					title: updateTitle,
+					description: updateDescription,
+					image: updateImage,
+					articleCategoryId: category.id,
+				},
+			});
+			await prisma.articleCategoryOnArticle.update({
+				where: {
+					id: idInt,
+				},
+				data: {
+					articleId: idInt,
+					articleCategoryId: category.id,
+				},
+			});
+			res.status(201).json({ message: 'This food has been edited' });
+		} catch (error) {
+			res.status(500).json({
+				message: `Internal Server Error: ${error}`,
+			});
+		}
+	},
+	deleteFood: async (req, res) => {
+		try {
+			const { id } = req.params;
+			const idInt = Number(id);
+			await prisma.article.delete({
+				where: {
+					id: idInt,
+				},
+			});
+			res.status(201).json({ message: 'Food has been deleted' });
 		} catch (error) {
 			res.status(500).json({
 				message: `Internal Server Error: ${error}`,

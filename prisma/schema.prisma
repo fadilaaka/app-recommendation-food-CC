@@ -164,6 +164,7 @@ model Food {
     status      status  @default(publish)
 
     foodRecipeId Int?
+    foodDetailId Int?
     foodTagsId   Int?
 
     createdAt DateTime  @default(now())
@@ -199,10 +200,10 @@ model FoodRecipe {
     id          Int     @id @default(autoincrement())
     uuid        String  @unique
     name        String
-    description String?
+    description String? @db.LongText
     image       String?
 
-    foodId Int
+    foodId Int?
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
@@ -216,10 +217,8 @@ model FoodTags {
     id          Int     @id @default(autoincrement())
     uuid        String  @unique
     name        String
-    description String?
+    description String? @db.LongText
     image       String?
-
-    foodId Int?
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
