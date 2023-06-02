@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FaPenSquare, FaTrashAlt } from "react-icons/fa";
+import { FaPlus, FaPen, FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Loading from "../components/Loading";
 import Modal from "../components/Modal";
@@ -8,33 +8,42 @@ import Sidebar from "../components/Sidebar";
 import DataTable from "react-data-table-component";
 
 const Foods = () => {
-  const [dataUser, setDataUser] = useState([]);
+  const [dataArticle, setDataArticle] = useState([]);
   const [deleted, setDeleted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [modalConfirmDelete, setModalConfirmDelete] = useState(false);
+
+  const [status, setStatus] = useState();
+  const [showStatus, setShowStatus] = useState(false);
 
   const url = "http://localhost:5000";
 
   useEffect(() => {
     setLoading(true);
-    getApiViewUser();
+    getApiViewArticles();
     setDeleted(false);
   }, [deleted]);
 
-  const getApiViewUser = async () => {
-    const result = await axios.get(`${url}/api/v1/admin/get-users`);
-    // console.log(result);
-    setDataUser(result.data.users);
+  const getApiViewArticles = async () => {
+    const result = await axios.get(`${url}/api/v1/admin/get-foods`);
+    console.log(result);
+    setDataArticle(result.data.foods);
     setLoading(false);
   };
 
-  const deleteUser = (idUser) => {
+  const deleteArticle = (idArticle) => {
     axios
-      .post(`${url}/v1/api/delete-user/${idUser}`)
+      .post(`${url}/api/v1/admin/delete-article/${Number(idArticle)}`)
       .then((res) => {
-        // console.log(res);
+        console.log(res);
         setDeleted(true);
         setModalConfirmDelete(false);
+        setStatus(res);
+        setShowStatus(true);
+
+        setTimeout(() => {
+          setShowStatus(false);
+        }, 3000);
       })
       .catch((err) => console.log(err));
   };
@@ -58,40 +67,116 @@ const Foods = () => {
       sortable: true,
     },
     {
-      name: "email",
-      selector: (row) => row.email,
-      sortable: true,
-    },
-    {
       name: "name",
-      selector: (row) => row.name,
+      selector: (row) => row.food.name,
       sortable: true,
     },
     {
-      name: "gender",
-      selector: (row) => row.gender,
+      name: "tags",
+      selector: (row) => row.food.foodTags.name,
+      sortable: true,
+    },
+    {
+      name: "calories",
+      selector: (row) => row.calories,
+      sortable: true,
+    },
+    {
+      name: "carbohidrat",
+      selector: (row) => row.carbohidrat,
+      sortable: true,
+    },
+    {
+      name: "fat",
+      selector: (row) => row.fat,
+      sortable: true,
+    },
+    {
+      name: "protein",
+      selector: (row) => row.protein,
       sortable: true,
     },
   ];
 
-  const data = dataUser;
+  const data = dataArticle;
   const ExpandableRowsDetail = ({ data }) => {
     return (
       <div>
-        <ul>
-          <li>id: {data.id}</li>
-          <li>uuid: {data.uuid}</li>
-          <li>email: {data.email} </li>
-          <li>name: {data.name}</li>
-          <li>gender: {data.gender}</li>
-          <li>birthday: {data.birthday}</li>
-          <li>weight: {data.weight}</li>
-          <li>height: {data.height}</li>
-          <li>budget: {data.budget}</li>
-          <li>createdAt: {data.createdAt}</li>
-          <li>updatedAt: {data.updatedAt}</li>
-          <li>deletedAt: {data.deletedAt}</li>
+        <ul className="mx-4 my-4">
+          <li>
+            <b>id</b>: {data.id}
+          </li>
+          <li>
+            <b>uuid</b>: {data.uuid}
+          </li>
+          <li>
+            <b>Name</b>: {data.food.name}{" "}
+          </li>
+          <li>
+            <b>Tags</b>: {data.food.foodTags.name}{" "}
+          </li>
+          <li>
+            <b>Calories</b>: {data.calories}{" "}
+          </li>
+          <li>
+            <b>Carbohidrat</b>: {data.carbohidrat}{" "}
+          </li>
+          <li>
+            <b>Fat</b>: {data.fat}{" "}
+          </li>
+          <li>
+            <b>Protein</b>: {data.protein}{" "}
+          </li>
+          <li>
+            <b>Image</b>:{" "}
+            <a
+              className="text-sky-300 hover:underline hover:text-sky-500"
+              target="_blank"
+              href={data.food.image}
+              rel="noreferrer"
+            >
+              {data.food.image}
+            </a>
+          </li>
+          <li>
+            <b>Status</b>: {data.food.status}
+          </li>
+          <li>
+            <b>Description</b>: {data.food.description}
+          </li>
+          <li>
+            <b>Recipe</b>: {data.foodRecipe.description}
+          </li>
+          <li>
+            <b>CreatedAt</b>: {data.createdAt}
+          </li>
+          <li>
+            <b>UpdatedAt</b>: {data.updatedAt}
+          </li>
+          <li>
+            <b>DeletedAt</b>: {data.deletedAt}
+          </li>
         </ul>
+        <div className="mx-4 my-4">
+          <Link to={`/edit-article/${data.id}`}>
+            <button className="bg-amber-500 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded mx-4">
+              <div className="flex justify-between items-center">
+                <FaPen />
+                Edit
+              </div>
+            </button>
+          </Link>
+          <button
+            type="button"
+            onClick={() => openModal(parseInt(data.id), data.title)}
+            className="bg-rose-500 hover:bg-rose-700 text-white font-bold py-2 px-4 rounded"
+          >
+            <div className="flex justify-between items-center">
+              <FaTrashAlt />
+              Delete
+            </div>
+          </button>
+        </div>
       </div>
     );
   };
@@ -99,8 +184,10 @@ const Foods = () => {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="mb-4 border-b border-gray-200 dark:border-gray-700">
+      <div className="m-12 border-gray-200 dark:border-gray-700">
         <div className="overflow-hidden border rounded-lg">
+          <h1 className="text-lg font-bold m-4">Data Foods</h1>
+          {loading && <Loading />}
           <DataTable
             columns={columns}
             data={data}
@@ -111,7 +198,32 @@ const Foods = () => {
             expandableRowsComponent={ExpandableRowsDetail}
           />
         </div>
+        <Link to={`/add-article`}>
+          <button className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded mx-4 my-4">
+            <div className="flex justify-between items-center">
+              <FaPlus />
+              Add Food
+            </div>
+          </button>
+        </Link>
       </div>
+      <Modal
+        modal={modalConfirmDelete}
+        title={selectedTitle}
+        id={selectedId}
+        onClose={closeModal}
+        onDelete={deleteArticle}
+      />
+      {showStatus && status && status.status === 201 ? (
+        <div
+          className="mx-auto fixed w-[25%] h-[10%] inset-0 flex items-center p-4 my-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
+          role="alert"
+        >
+          <span className="font-medium">{status.data.message}</span>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

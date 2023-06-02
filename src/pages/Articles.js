@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FaPen, FaPenSquare, FaTrashAlt } from "react-icons/fa";
+import { FaPlus, FaPen, FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Loading from "../components/Loading";
 import Modal from "../components/Modal";
@@ -83,11 +83,17 @@ const Articles = () => {
     return (
       <div>
         <ul className="mx-4 my-4">
-          <li>id: {data.id}</li>
-          <li>uuid: {data.uuid}</li>
-          <li>Title: {data.title} </li>
           <li>
-            Image:{" "}
+            <b>id</b>: {data.id}
+          </li>
+          <li>
+            <b>uuid</b>: {data.uuid}
+          </li>
+          <li>
+            <b>Title</b>: {data.title}{" "}
+          </li>
+          <li>
+            <b>Image</b>:{" "}
             <a
               className="text-sky-300 hover:underline hover:text-sky-500"
               target="_blank"
@@ -97,12 +103,24 @@ const Articles = () => {
               {data.image}
             </a>
           </li>
-          <li>Status: {data.status}</li>
-          <li>Article Category: {data.articleCategory.name}</li>
-          <li>CreatedAt: {data.createdAt}</li>
-          <li>UpdatedAt: {data.updatedAt}</li>
-          <li>DeletedAt: {data.deletedAt}</li>
-          <li>Description: {data.description}</li>
+          <li>
+            <b>Status</b>: {data.status}
+          </li>
+          <li>
+            <b>Article Category</b>: {data.articleCategory.name}
+          </li>
+          <li>
+            <b>Description</b>: {data.description}
+          </li>
+          <li>
+            <b>CreatedAt</b>: {data.createdAt}
+          </li>
+          <li>
+            <b>UpdatedAt</b>: {data.updatedAt}
+          </li>
+          <li>
+            <b>DeletedAt</b>: {data.deletedAt}
+          </li>
         </ul>
         <div className="mx-4 my-4">
           <Link to={`/edit-article/${data.id}`}>
@@ -148,7 +166,7 @@ const Articles = () => {
         <Link to={`/add-article`}>
           <button className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded mx-4 my-4">
             <div className="flex justify-between items-center">
-              <FaPen />
+              <FaPlus />
               Add Article
             </div>
           </button>
