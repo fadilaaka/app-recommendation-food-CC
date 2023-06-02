@@ -125,7 +125,12 @@ const getUser = async (req, res) => {
 
 const registerAttempt = async (req, res) => {
 	try {
-		const { email, password, passwordConfirm } = req.body;
+		const {
+			email,
+			name,
+			password,
+			passwordConfirm,
+		} = req.body;
 
 		if (password !== passwordConfirm) {
 			return res.status(400).json({ status: 'failed', code: 400, message: 'Password not match' });
@@ -148,6 +153,7 @@ const registerAttempt = async (req, res) => {
 			data: {
 				email,
 				uuid: uuidv4(),
+				name,
 				password: hashedPassword,
 			},
 		});
