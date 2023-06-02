@@ -51,7 +51,7 @@ model DiseaseHistory {
     id          Int     @id @default(autoincrement())
     uuid        String  @unique
     name        String
-    description String?
+    description String? @db.LongText
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
@@ -65,7 +65,7 @@ model Allergy {
     id          Int     @id @default(autoincrement())
     uuid        String  @unique
     name        String
-    description String?
+    description String? @db.LongText
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
@@ -79,7 +79,7 @@ model ActivityFactor {
     id          Int     @id @default(autoincrement())
     uuid        String  @unique
     name        String
-    description String?
+    description String? @db.LongText
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
@@ -92,7 +92,7 @@ model StressFactor {
     id          Int     @id @default(autoincrement())
     uuid        String  @unique
     name        String
-    description String?
+    description String? @db.LongText
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
@@ -158,7 +158,7 @@ model Food {
     id          Int     @id @default(autoincrement())
     uuid        String  @unique
     name        String
-    description String?
+    description String? @db.LongText
     image       String?
     price       Float?
     status      status  @default(publish)
@@ -266,7 +266,7 @@ model ArticleCategory {
     id          Int     @id @default(autoincrement())
     uuid        String  @unique
     name        String
-    description String?
+    description String? @db.LongText
     image       String?
 
     createdAt DateTime  @default(now())
@@ -288,8 +288,8 @@ model ArticleCategoryOnArticle {
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
-    article         Article         @relation(fields: [articleId], references: [id])
-    articleCategory ArticleCategory @relation(fields: [articleCategoryId], references: [id])
+    article         Article         @relation(fields: [articleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    articleCategory ArticleCategory @relation(fields: [articleCategoryId], references: [id], onUpdate: Cascade)
 }
 
 model userTokenResetPassword {
