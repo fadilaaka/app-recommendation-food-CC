@@ -27,9 +27,9 @@ app.use(device.capture());
 app.use(morgan('combined', { stream: accessLogStream }));
 
 require('./routes/routes')(app);
-require('./routes/auth.routes')(app);
 require('./routes/admin.routes')(app);
 require('./routes/user.routes')(app);
+require('./routes/auth.routes')(app);
 
 app.listen(PORT, () => {
 	console.log(`App listening on port ${PORT}`);
