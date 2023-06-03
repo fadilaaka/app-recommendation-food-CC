@@ -223,23 +223,28 @@ module.exports = {
 		try {
 			const { id } = req.params;
 			const idInt = Number(id);
-			const article = await prisma.article.findUnique({
+			const food = await prisma.foodDetail.findUnique({
 				where: {
 					id: idInt,
 				},
 				include: {
-					articleCategory: true,
+					foodRecipe: true,
+					food: {
+						include: {
+							foodTags: true,
+						},
+					},
 				},
 			});
-			res.status(200).json({ article });
+			res.status(200).json({ food });
 		} catch (error) {
 			res.status(500).json({ message: 'Internal Server Error' });
 		}
 	},
-	getFoodCategory: async (req, res) => {
+	getFoodTags: async (req, res) => {
 		try {
-			const category = await prisma.articleCategory.findMany();
-			res.status(200).json({ category });
+			const tags = await prisma.foodTags.findMany();
+			res.status(200).json({ tags });
 		} catch (error) {
 			res.status(500).json({ message: 'Internal Server Error' });
 		}
@@ -247,28 +252,62 @@ module.exports = {
 	addFood: async (req, res) => {
 		try {
 			const {
-				title, articleCategoryId, image, description,
+				name,
+				foodTagsId,
+				calories,
+				carbohidrat,
+				fat,
+				protein,
+				price,
+				image,
+				description,
+				foodRecipe,
 			} = req.body;
-			const category = await prisma.articleCategory.findUnique({
+
+			const tags = await prisma.foodTags.findUnique({
 				where: {
-					id: Number(articleCategoryId),
+					id: Number(foodTagsId),
 				},
 			});
-			const article = await prisma.article.create({
+
+			const recipe = await prisma.foodRecipe.create({
 				data: {
 					uuid: uuidv4(),
-					title,
+					name,
+					description: foodRecipe,
+				},
+			});
+
+			const food = await prisma.food.create({
+				data: {
+					uuid: uuidv4(),
+					name,
 					description,
 					image,
+					price: parseFloat(price),
 					status: 'publish',
-					articleCategoryId: category.id,
+					foodTagsId: tags.id,
+					foodRecipeId: recipe.id,
 				},
 			});
-			await prisma.articleCategoryOnArticle.create({
+
+			await prisma.foodDetail.create({
 				data: {
 					uuid: uuidv4(),
-					articleId: article.id,
-					articleCategoryId: category.id,
+					fat: parseFloat(fat),
+					protein: parseFloat(protein),
+					carbohidrat: parseFloat(carbohidrat),
+					calories: parseFloat(calories),
+					foodId: food.id,
+					foodRecipeId: recipe.id,
+				},
+			});
+
+			await prisma.foodTagsOnFood.create({
+				data: {
+					uuid: uuidv4(),
+					foodId: food.id,
+					foodTagsId: tags.id,
 				},
 			});
 			res.status(201).json({ message: 'New food has been added' });
@@ -282,37 +321,76 @@ module.exports = {
 		try {
 			const { id } = req.params;
 			const {
-				updateTitle,
-				updateArticleCategoryId,
+				updateName,
+				updateFoodTagsId,
+				updateCalories,
+				updateCarbohidrat,
+				updateFat,
+				updateProtein,
+				updatePrice,
 				updateImage,
 				updateDescription,
+				updateFoodRecipe,
 			} = req.body;
 			const idInt = Number(id);
-			const category = await prisma.articleCategory.findUnique({
+
+			const tags = await prisma.foodTags.findUnique({
 				where: {
-					id: Number(updateArticleCategoryId),
+					id: Number(updateFoodTagsId),
 				},
 			});
-			await prisma.article.update({
+
+			const recipe = await prisma.foodRecipe.update({
 				where: {
 					id: idInt,
 				},
 				data: {
-					title: updateTitle,
+					description: updateFoodRecipe,
+				},
+			});
+
+			const food = await prisma.food.update({
+				where: {
+					id: idInt,
+				},
+				data: {
+					uuid: uuidv4(),
+					name: updateName,
 					description: updateDescription,
 					image: updateImage,
-					articleCategoryId: category.id,
+					price: parseFloat(updatePrice),
+					status: 'publish',
+					foodTagsId: tags.id,
+					foodRecipeId: recipe.id,
 				},
 			});
-			await prisma.articleCategoryOnArticle.update({
+
+			await prisma.foodDetail.update({
 				where: {
 					id: idInt,
 				},
 				data: {
-					articleId: idInt,
-					articleCategoryId: category.id,
+					uuid: uuidv4(),
+					fat: parseFloat(updateFat),
+					protein: parseFloat(updateProtein),
+					carbohidrat: parseFloat(updateCarbohidrat),
+					calories: parseFloat(updateCalories),
+					foodId: food.id,
+					foodRecipeId: recipe.id,
 				},
 			});
+
+			await prisma.foodTagsOnFood.update({
+				where: {
+					id: idInt,
+				},
+				data: {
+					uuid: uuidv4(),
+					foodId: food.id,
+					foodTagsId: tags.id,
+				},
+			});
+
 			res.status(201).json({ message: 'This food has been edited' });
 		} catch (error) {
 			res.status(500).json({
@@ -324,7 +402,12 @@ module.exports = {
 		try {
 			const { id } = req.params;
 			const idInt = Number(id);
-			await prisma.article.delete({
+			await prisma.food.delete({
+				where: {
+					id: idInt,
+				},
+			});
+			await prisma.foodRecipe.delete({
 				where: {
 					id: idInt,
 				},

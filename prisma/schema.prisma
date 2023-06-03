@@ -164,7 +164,6 @@ model Food {
     status      status  @default(publish)
 
     foodRecipeId Int?
-    foodDetailId Int?
     foodTagsId   Int?
 
     createdAt DateTime  @default(now())
@@ -172,7 +171,7 @@ model Food {
     deletedAt DateTime?
 
     foodDetail     FoodDetail[]
-    foodRecipe     FoodRecipe?      @relation(fields: [foodRecipeId], references: [id])
+    foodRecipe     FoodRecipe?      @relation(fields: [foodRecipeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
     foodTags       FoodTags?        @relation(fields: [foodTagsId], references: [id])
     foodTagsOnFood FoodTagsOnFood[]
 }
@@ -192,8 +191,8 @@ model FoodDetail {
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
-    food       Food        @relation(fields: [foodId], references: [id])
-    foodRecipe FoodRecipe? @relation(fields: [foodRecipeId], references: [id])
+    food       Food        @relation(fields: [foodId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    foodRecipe FoodRecipe? @relation(fields: [foodRecipeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model FoodRecipe {
@@ -239,8 +238,8 @@ model FoodTagsOnFood {
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
-    food     Food     @relation(fields: [foodId], references: [id])
-    foodTags FoodTags @relation(fields: [foodTagsId], references: [id])
+    food     Food     @relation(fields: [foodId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    foodTags FoodTags @relation(fields: [foodTagsId], references: [id], onUpdate: Cascade)
 }
 
 model Article {
