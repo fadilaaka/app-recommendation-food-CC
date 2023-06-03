@@ -8,7 +8,7 @@ import Sidebar from "../components/Sidebar";
 import DataTable from "react-data-table-component";
 
 const Foods = () => {
-  const [dataArticle, setDataArticle] = useState([]);
+  const [dataFood, setDataFood] = useState([]);
   const [deleted, setDeleted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [modalConfirmDelete, setModalConfirmDelete] = useState(false);
@@ -20,20 +20,20 @@ const Foods = () => {
 
   useEffect(() => {
     setLoading(true);
-    getApiViewArticles();
+    getApiViewFoods();
     setDeleted(false);
   }, [deleted]);
 
-  const getApiViewArticles = async () => {
+  const getApiViewFoods = async () => {
     const result = await axios.get(`${url}/api/v1/admin/get-foods`);
     console.log(result);
-    setDataArticle(result.data.foods);
+    setDataFood(result.data.foods);
     setLoading(false);
   };
 
-  const deleteArticle = (idArticle) => {
+  const deleteFood = (idFood) => {
     axios
-      .post(`${url}/api/v1/admin/delete-article/${Number(idArticle)}`)
+      .post(`${url}/api/v1/admin/delete-food/${Number(idFood)}`)
       .then((res) => {
         console.log(res);
         setDeleted(true);
@@ -96,9 +96,14 @@ const Foods = () => {
       selector: (row) => row.protein,
       sortable: true,
     },
+    {
+      name: "price",
+      selector: (row) => row.food.price,
+      sortable: true,
+    },
   ];
 
-  const data = dataArticle;
+  const data = dataFood;
   const ExpandableRowsDetail = ({ data }) => {
     return (
       <div>
@@ -139,6 +144,9 @@ const Foods = () => {
             </a>
           </li>
           <li>
+            <b>Price</b>: {data.food.price}{" "}
+          </li>
+          <li>
             <b>Status</b>: {data.food.status}
           </li>
           <li>
@@ -158,7 +166,7 @@ const Foods = () => {
           </li>
         </ul>
         <div className="mx-4 my-4">
-          <Link to={`/edit-article/${data.id}`}>
+          <Link to={`/edit-food/${data.id}`}>
             <button className="bg-amber-500 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded mx-4">
               <div className="flex justify-between items-center">
                 <FaPen />
@@ -198,7 +206,7 @@ const Foods = () => {
             expandableRowsComponent={ExpandableRowsDetail}
           />
         </div>
-        <Link to={`/add-article`}>
+        <Link to={`/add-food`}>
           <button className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded mx-4 my-4">
             <div className="flex justify-between items-center">
               <FaPlus />
@@ -212,7 +220,7 @@ const Foods = () => {
         title={selectedTitle}
         id={selectedId}
         onClose={closeModal}
-        onDelete={deleteArticle}
+        onDelete={deleteFood}
       />
       {showStatus && status && status.status === 201 ? (
         <div

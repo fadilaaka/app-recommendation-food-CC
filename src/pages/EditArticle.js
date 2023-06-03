@@ -7,13 +7,11 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 const EditArticle = () => {
   const { id } = useParams();
-  const [detailBuku, setDetailBuku] = useState();
   const [dataKategori, setDataKategori] = useState([]);
   const [judul, setJudul] = useState("");
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
   const [articleCategoryId, setArticleCategoryId] = useState();
-  const [titleKategori, setTitleKategori] = useState();
   const [status, setStatus] = useState();
 
   const url = "http://localhost:5000";
@@ -26,12 +24,10 @@ const EditArticle = () => {
   const getDetailArticle = async () => {
     const res = await axios.get(`${url}/api/v1/admin/detail-article/${id}`);
     console.log("Detail artikel: ", res);
-    setDetailBuku(res.data.article);
     setJudul(res.data.article.title);
     setImage(res.data.article.image);
     setDescription(res.data.article.description);
     setArticleCategoryId(res.data.article.articleCategory.id);
-    setTitleKategori(res.data.article.articleCategory.title);
   };
 
   const getArticleCategory = async () => {
@@ -53,7 +49,7 @@ const EditArticle = () => {
     // formData.append("updateArticleCategoryId", idKategori);
 
     axios
-      .post(`${url}/api/v1/admin/edit-article/${id}`, {
+      .post(`${url}/api/v1/admin/edit-food/${id}`, {
         updateTitle: judul,
         updateDescription: description,
         updateImage: image,

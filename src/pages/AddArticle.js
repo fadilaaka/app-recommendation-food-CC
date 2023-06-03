@@ -83,6 +83,7 @@ function AddArticle() {
               onChange={(e) => setArticleCategoryId(e.target.value)}
               required
             >
+              <option>--- Choose Category ---</option>
               {dataKategori.category &&
                 dataKategori.category.map((item, index) => {
                   return (
