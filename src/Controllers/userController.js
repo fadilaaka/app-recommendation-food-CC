@@ -158,9 +158,7 @@ const editUser = async (req, res) => {
 			code: 200,
 			message: 'User updated',
 			data: {
-				user: {
-					updatedUser,
-				},
+				user: updatedUser,
 			},
 		});
 	} catch (error) {
