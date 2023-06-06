@@ -188,27 +188,31 @@ module.exports = {
 		}
 	},
 
-	// getArticle: async (req, res) => {
-	// 	try {
-	// 		const allergy = await prisma.allergy.findMany({
-	// 			select: {
-	// 				uuid: true,
-	// 				title: true,
-	// 				description: true,
-	// 				articleCategoryId: true,
-	// 				status: true,
-	// 				image: true,
-	// 			},
-	// 		});
-	// 		res.status(200).json({
-	// 			allergy,
-	// 		});
-	// 	} catch (error) {
-	// 		res.status(500).json({
-	// 			message: `Internal Server Error: ${error}`,
-	// 		});
-	// 	}
-	// },
+	getFoodByUuid: async (req, res) => {
+		try {
+			const { uuid } = req.params;
+			const food = await prisma.foodDetail.findUnique({
+				where: {
+					uuid,
+				},
+				include: {
+					foodRecipe: true,
+					food: {
+						include: {
+							foodTags: true,
+						},
+					},
+				},
+			});
+			res.status(200).json({
+				food,
+			});
+		} catch (error) {
+			res.status(500).json({
+				message: `Internal Server Error : ${error}`,
+			});
+		}
+	},
 
 	postLogin: async (req, res) => {
 		try {
