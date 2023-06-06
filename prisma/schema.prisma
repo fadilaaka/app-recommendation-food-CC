@@ -51,7 +51,7 @@ model DiseaseHistory {
     id          Int     @id @default(autoincrement())
     uuid        String  @unique
     name        String
-    description String?
+    description String? @db.LongText
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
@@ -65,7 +65,7 @@ model Allergy {
     id          Int     @id @default(autoincrement())
     uuid        String  @unique
     name        String
-    description String?
+    description String? @db.LongText
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
@@ -79,7 +79,7 @@ model ActivityFactor {
     id          Int     @id @default(autoincrement())
     uuid        String  @unique
     name        String
-    description String?
+    description String? @db.LongText
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
@@ -92,7 +92,7 @@ model StressFactor {
     id          Int     @id @default(autoincrement())
     uuid        String  @unique
     name        String
-    description String?
+    description String? @db.LongText
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
@@ -158,7 +158,7 @@ model Food {
     id          Int     @id @default(autoincrement())
     uuid        String  @unique
     name        String
-    description String?
+    description String? @db.LongText
     image       String?
     price       Float?
     status      status  @default(publish)
@@ -171,7 +171,7 @@ model Food {
     deletedAt DateTime?
 
     foodDetail     FoodDetail[]
-    foodRecipe     FoodRecipe?      @relation(fields: [foodRecipeId], references: [id])
+    foodRecipe     FoodRecipe?      @relation(fields: [foodRecipeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
     foodTags       FoodTags?        @relation(fields: [foodTagsId], references: [id])
     foodTagsOnFood FoodTagsOnFood[]
 }
@@ -191,18 +191,18 @@ model FoodDetail {
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
-    food       Food        @relation(fields: [foodId], references: [id])
-    foodRecipe FoodRecipe? @relation(fields: [foodRecipeId], references: [id])
+    food       Food        @relation(fields: [foodId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    foodRecipe FoodRecipe? @relation(fields: [foodRecipeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model FoodRecipe {
     id          Int     @id @default(autoincrement())
     uuid        String  @unique
     name        String
-    description String?
+    description String? @db.LongText
     image       String?
 
-    foodId Int
+    foodId Int?
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
@@ -216,10 +216,8 @@ model FoodTags {
     id          Int     @id @default(autoincrement())
     uuid        String  @unique
     name        String
-    description String?
+    description String? @db.LongText
     image       String?
-
-    foodId Int?
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
@@ -240,8 +238,8 @@ model FoodTagsOnFood {
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
-    food     Food     @relation(fields: [foodId], references: [id])
-    foodTags FoodTags @relation(fields: [foodTagsId], references: [id])
+    food     Food     @relation(fields: [foodId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    foodTags FoodTags @relation(fields: [foodTagsId], references: [id], onUpdate: Cascade)
 }
 
 model Article {
@@ -266,7 +264,7 @@ model ArticleCategory {
     id          Int     @id @default(autoincrement())
     uuid        String  @unique
     name        String
-    description String?
+    description String? @db.LongText
     image       String?
 
     createdAt DateTime  @default(now())
@@ -288,8 +286,8 @@ model ArticleCategoryOnArticle {
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
-    article         Article         @relation(fields: [articleId], references: [id])
-    articleCategory ArticleCategory @relation(fields: [articleCategoryId], references: [id])
+    article         Article         @relation(fields: [articleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    articleCategory ArticleCategory @relation(fields: [articleCategoryId], references: [id], onUpdate: Cascade)
 }
 
 model userTokenResetPassword {

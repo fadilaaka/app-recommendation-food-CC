@@ -7,30 +7,44 @@ const getArticle = async (req, res) => {
 	try {
 		const { id } = req.params;
 
-		const article = await prisma.article.findFirstOrThrow({
-			where: {
-				id: parseInt(id, 10),
-				status: 'publish',
-			},
-			select: {
-				uuid: true,
-				title: true,
-				description: true,
-				image: true,
-				createdAt: true,
-				updatedAt: true,
-			},
-		}).catch((err) => {
-			if (err instanceof Prisma.PrismaClientKnownRequestError) return res.status(404).json({ status: 'failed', code: 404, message: 'Article not found' });
+		const article = await prisma.article
+			.findFirstOrThrow({
+				where: {
+					id: parseInt(id, 10),
+					status: 'publish',
+				},
+				select: {
+					uuid: true,
+					title: true,
+					description: true,
+					image: true,
+					createdAt: true,
+					updatedAt: true,
+				},
+			})
+			.catch((err) => {
+				if (err instanceof Prisma.PrismaClientKnownRequestError) {
+					return res.status(404).json({
+						status: 'failed',
+						code: 404,
+						message: 'Article not found',
+					});
+				}
 
-			throw err;
-		});
+				throw err;
+			});
 
-		article.image = article.image ? `${process.env.STORAGE_URL}/images/${article.image}` : null;
+		article.image = article.image
+			? `${process.env.STORAGE_URL}/images/${article.image}`
+			: null;
 
 		return res.status(200).json({ status: 'success', code: 200, article });
 	} catch (error) {
-		return res.status(500).json({ status: 'failed', code: 500, message: `Internal Server Error: ${error}` });
+		return res.status(500).json({
+			status: 'failed',
+			code: 500,
+			message: `Internal Server Error: ${error}`,
+		});
 	}
 };
 
@@ -52,14 +66,20 @@ const getArticles = async (req, res) => {
 		});
 
 		const data = await articles.map((article) => {
-			article.image = article.image ? `${process.env.STORAGE_URL}/images/${article.image}` : null;
+			article.image = article.image
+				? `${process.env.STORAGE_URL}/images/${article.image}`
+				: null;
 
 			return article;
 		});
 
 		return res.status(200).json({ status: 'success', code: 200, data });
 	} catch (error) {
-		return res.status(500).json({ status: 'failed', code: 500, message: `Internal Server Error: ${error}` });
+		return res.status(500).json({
+			status: 'failed',
+			code: 500,
+			message: `Internal Server Error: ${error}`,
+		});
 	}
 };
 
@@ -84,14 +104,20 @@ const getArticleByPage = async (req, res) => {
 		});
 
 		const data = await articles.map((article) => {
-			article.image = article.image ? `${process.env.STORAGE_URL}/images/${article.image}` : null;
+			article.image = article.image
+				? `${process.env.STORAGE_URL}/images/${article.image}`
+				: null;
 
 			return article;
 		});
 
 		return res.status(200).json({ status: 'success', code: 200, data });
 	} catch (error) {
-		return res.status(500).json({ status: 'failed', code: 500, message: `Internal Server Error: ${error}` });
+		return res.status(500).json({
+			status: 'failed',
+			code: 500,
+			message: `Internal Server Error: ${error}`,
+		});
 	}
 };
 
