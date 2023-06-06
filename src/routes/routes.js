@@ -13,10 +13,11 @@ module.exports = (app) => {
 	router.get('/get-user-detail/:uuid', apiController.getUserDetail);
 	router.get('/activity', apiController.getActivityFactor);
 	router.get('/allergy', apiController.getAllergy);
-	router.get('/article', apiController.getArticle);
 	router.get('/disease', apiController.getDiseaseHistory);
 	router.get('/stress', apiController.getStressFactor);
 
+	router.get('/foods', apiController.getAllFoodswithDetail);
+	// router.get('/article', apiController.getArticle);
 	// router.post('/login', apiController.postLogin);
 	// router.get('/get-user/:id', checkValidJWT, apiController.getOneUser);
 	// router.get('/protected', checkValidJWT, (req, res) => {

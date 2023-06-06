@@ -166,27 +166,49 @@ module.exports = {
 		}
 	},
 
-	getArticle: async (req, res) => {
+	getAllFoodswithDetail: async (req, res) => {
 		try {
-			const allergy = await prisma.allergy.findMany({
-				select: {
-					uuid: true,
-					title: true,
-					description: true,
-					articleCategoryId: true,
-					status: true,
-					image: true,
+			const foods = await prisma.foodDetail.findMany({
+				include: {
+					foodRecipe: true,
+					food: {
+						include: {
+							foodTags: true,
+						},
+					},
 				},
 			});
 			res.status(200).json({
-				allergy,
+				foods,
 			});
 		} catch (error) {
 			res.status(500).json({
-				message: `Internal Server Error: ${error}`,
+				message: `Internal Server Error : ${error}`,
 			});
 		}
 	},
+
+	// getArticle: async (req, res) => {
+	// 	try {
+	// 		const allergy = await prisma.allergy.findMany({
+	// 			select: {
+	// 				uuid: true,
+	// 				title: true,
+	// 				description: true,
+	// 				articleCategoryId: true,
+	// 				status: true,
+	// 				image: true,
+	// 			},
+	// 		});
+	// 		res.status(200).json({
+	// 			allergy,
+	// 		});
+	// 	} catch (error) {
+	// 		res.status(500).json({
+	// 			message: `Internal Server Error: ${error}`,
+	// 		});
+	// 	}
+	// },
 
 	postLogin: async (req, res) => {
 		try {
