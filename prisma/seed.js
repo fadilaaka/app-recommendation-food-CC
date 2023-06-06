@@ -88,19 +88,19 @@ async function main() {
 		data: [
 			{
 				uuid: uuidv4(),
-				name: 'Berat',
+				name: 'Stres Sangat Berat',
 			},
 			{
 				uuid: uuidv4(),
-				name: 'Ringan',
+				name: 'Stres Berat',
 			},
 			{
 				uuid: uuidv4(),
-				name: 'Sedang',
+				name: 'Stres Sedang',
 			},
 			{
 				uuid: uuidv4(),
-				name: 'Sangat Berat',
+				name: 'Stres Ringan',
 			},
 		],
 		skipDuplicates: true,
@@ -110,23 +110,23 @@ async function main() {
 		data: [
 			{
 				uuid: uuidv4(),
-				name: 'Berat',
+				name: 'Kerja ringan',
 			},
 			{
 				uuid: uuidv4(),
-				name: 'Ringan',
+				name: 'Kerja ringan-sedang',
 			},
 			{
 				uuid: uuidv4(),
-				name: 'Sedang',
+				name: 'Kerja sedang',
 			},
 			{
 				uuid: uuidv4(),
-				name: 'Berat',
+				name: 'Kerja berat',
 			},
 			{
 				uuid: uuidv4(),
-				name: 'Sangat Berat',
+				name: 'Kerja berat sekali',
 			},
 		],
 		skipDuplicates: true,
@@ -146,13 +146,13 @@ async function main() {
 
 	const Stress = await prisma.stressFactor.findFirst({
 		where: {
-			name: 'Berat',
+			name: 'Stres Sangat Berat',
 		},
 	});
 
 	const Activity = await prisma.ActivityFactor.findFirst({
 		where: {
-			name: 'Berat',
+			name: 'Kerja berat',
 		},
 	});
 
@@ -196,12 +196,12 @@ async function main() {
 					},
 					activityFactor: {
 						connect: {
-							id: Stress.id,
+							id: Activity.id,
 						},
 					},
 					stressFactor: {
 						connect: {
-							id: Activity.id,
+							id: Stress.id,
 						},
 					},
 				},
@@ -258,12 +258,12 @@ async function main() {
 					},
 					activityFactor: {
 						connect: {
-							id: Stress.id,
+							id: Activity.id,
 						},
 					},
 					stressFactor: {
 						connect: {
-							id: Activity.id,
+							id: Stress.id,
 						},
 					},
 				},
