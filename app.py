@@ -10,11 +10,17 @@ from tensorflow import keras
 
 app = Flask(__name__)
 CORS(app)
-app.config['MYSQL_HOST'] = 'localhost'
+# app.config['MYSQL_HOST'] = 'localhost'
+# app.config['MYSQL_USER'] = 'root'
+# app.config['MYSQL_PASSWORD'] = ''
+# app.config['MYSQL_DB'] = 'nutrimenu'
+# app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+app.config['MYSQL_HOST'] = '34.101.51.251'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_PASSWORD'] = '87654321'
 app.config['MYSQL_DB'] = 'nutrimenu'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+app.config['MYSQL_UNIX_SOCKET'] = '/cloudsql/aplikasi-rekomendasi-food:asia-southeast2:dev-test-arf'
 
 mysql = MySQL(app)
 
