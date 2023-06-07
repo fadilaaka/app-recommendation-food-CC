@@ -356,7 +356,7 @@ async function main() {
 		data: {
 			uuid: uuidv4(),
 			name: 'Makanan Ringan',
-			description: 'This is dessert foods',
+			description: 'This is makanan ringan',
 		},
 	});
 	const foodTagsSeedMakananBerat = await prisma.foodTags.create({
@@ -1339,13 +1339,6 @@ async function main() {
 			foodTagsId: foodTagsSeedMakananRingan.id,
 		},
 	});
-	await prisma.foodTagsOnFood.create({
-		data: {
-			uuid: uuidv4(),
-			foodId: foodSeedRenggiGoreng.id,
-			foodTagsId: foodTagsSeedMakananRingan.id,
-		},
-	});
 
 	const foodRecipeSeedRotiBoong = await prisma.foodRecipe.create({
 		data: {
@@ -1374,13 +1367,6 @@ async function main() {
 			calories: 374,
 			foodId: foodSeedRotiBoong.id,
 			foodRecipeId: foodRecipeSeedRotiBoong.id,
-		},
-	});
-	await prisma.foodTagsOnFood.create({
-		data: {
-			uuid: uuidv4(),
-			foodId: foodSeedRotiBoong.id,
-			foodTagsId: foodTagsSeedMakananRingan.id,
 		},
 	});
 	await prisma.foodTagsOnFood.create({
@@ -1427,13 +1413,6 @@ async function main() {
 			foodTagsId: foodTagsSeedMakananRingan.id,
 		},
 	});
-	await prisma.foodTagsOnFood.create({
-		data: {
-			uuid: uuidv4(),
-			foodId: foodSeedRotiWarnaSawoMatang.id,
-			foodTagsId: foodTagsSeedMakananRingan.id,
-		},
-	});
 
 	const foodRecipeSeedSarimuka = await prisma.foodRecipe.create({
 		data: {
@@ -1462,13 +1441,6 @@ async function main() {
 			calories: 374,
 			foodId: foodSeedSarimuka.id,
 			foodRecipeId: foodRecipeSeedSarimuka.id,
-		},
-	});
-	await prisma.foodTagsOnFood.create({
-		data: {
-			uuid: uuidv4(),
-			foodId: foodSeedSarimuka.id,
-			foodTagsId: foodTagsSeedMakananRingan.id,
 		},
 	});
 	await prisma.foodTagsOnFood.create({
@@ -1517,13 +1489,6 @@ async function main() {
 			foodTagsId: foodTagsSeedMakananRingan.id,
 		},
 	});
-	await prisma.foodTagsOnFood.create({
-		data: {
-			uuid: uuidv4(),
-			foodId: foodSeedGetukPisang.id,
-			foodTagsId: foodTagsSeedMakananRingan.id,
-		},
-	});
 
 	const foodRecipeSeedTapaiBeras = await prisma.foodRecipe.create({
 		data: {
@@ -1552,13 +1517,6 @@ async function main() {
 			calories: 374,
 			foodId: foodSeedTapaiBeras.id,
 			foodRecipeId: foodRecipeSeedTapaiBeras.id,
-		},
-	});
-	await prisma.foodTagsOnFood.create({
-		data: {
-			uuid: uuidv4(),
-			foodId: foodSeedTapaiBeras.id,
-			foodTagsId: foodTagsSeedMakananRingan.id,
 		},
 	});
 	await prisma.foodTagsOnFood.create({
@@ -1605,13 +1563,6 @@ async function main() {
 			foodTagsId: foodTagsSeedMakananRingan.id,
 		},
 	});
-	await prisma.foodTagsOnFood.create({
-		data: {
-			uuid: uuidv4(),
-			foodId: foodSeedMisoa.id,
-			foodTagsId: foodTagsSeedMakananRingan.id,
-		},
-	});
 
 	const foodRecipeSeedRotiPutih = await prisma.foodRecipe.create({
 		data: {
@@ -1649,13 +1600,6 @@ async function main() {
 			foodTagsId: foodTagsSeedMakananRingan.id,
 		},
 	});
-	await prisma.foodTagsOnFood.create({
-		data: {
-			uuid: uuidv4(),
-			foodId: foodSeedRotiPutih.id,
-			foodTagsId: foodTagsSeedMakananRingan.id,
-		},
-	});
 
 	const foodRecipeSeedAmparanTatak = await prisma.foodRecipe.create({
 		data: {
@@ -1684,13 +1628,6 @@ async function main() {
 			calories: 374,
 			foodId: foodSeedAmparanTatak.id,
 			foodRecipeId: foodRecipeSeedAmparanTatak.id,
-		},
-	});
-	await prisma.foodTagsOnFood.create({
-		data: {
-			uuid: uuidv4(),
-			foodId: foodSeedAmparanTatak.id,
-			foodTagsId: foodTagsSeedMakananRingan.id,
 		},
 	});
 	await prisma.foodTagsOnFood.create({
@@ -1739,13 +1676,6 @@ async function main() {
 			foodTagsId: foodTagsSeedMakananRingan.id,
 		},
 	});
-	await prisma.foodTagsOnFood.create({
-		data: {
-			uuid: uuidv4(),
-			foodId: foodSeedApangKukusKue.id,
-			foodTagsId: foodTagsSeedMakananRingan.id,
-		},
-	});
 
 	const foodRecipeSeedApemKue = await prisma.foodRecipe.create({
 		data: {
@@ -1774,13 +1704,6 @@ async function main() {
 			calories: 374,
 			foodId: foodSeedApemKue.id,
 			foodRecipeId: foodRecipeSeedApemKue.id,
-		},
-	});
-	await prisma.foodTagsOnFood.create({
-		data: {
-			uuid: uuidv4(),
-			foodId: foodSeedApemKue.id,
-			foodTagsId: foodTagsSeedMakananRingan.id,
 		},
 	});
 	await prisma.foodTagsOnFood.create({
@@ -1827,13 +1750,6 @@ async function main() {
 			foodTagsId: foodTagsSeedMakananRingan.id,
 		},
 	});
-	await prisma.foodTagsOnFood.create({
-		data: {
-			uuid: uuidv4(),
-			foodId: foodSeedBiskuit.id,
-			foodTagsId: foodTagsSeedMakananRingan.id,
-		},
-	});
 
 	const foodRecipeSeedBakpiaKue = await prisma.foodRecipe.create({
 		data: {
@@ -1871,13 +1787,6 @@ async function main() {
 			foodTagsId: foodTagsSeedMakananRingan.id,
 		},
 	});
-	await prisma.foodTagsOnFood.create({
-		data: {
-			uuid: uuidv4(),
-			foodId: foodSeedBakpiaKue.id,
-			foodTagsId: foodTagsSeedMakananRingan.id,
-		},
-	});
 
 	const foodRecipeSeedBakwan = await prisma.foodRecipe.create({
 		data: {
@@ -1906,13 +1815,6 @@ async function main() {
 			calories: 374,
 			foodId: foodSeedBakwan.id,
 			foodRecipeId: foodRecipeSeedBakwan.id,
-		},
-	});
-	await prisma.foodTagsOnFood.create({
-		data: {
-			uuid: uuidv4(),
-			foodId: foodSeedBakwan.id,
-			foodTagsId: foodTagsSeedMakananRingan.id,
 		},
 	});
 	await prisma.foodTagsOnFood.create({
@@ -1961,13 +1863,6 @@ async function main() {
 			foodTagsId: foodTagsSeedMakananRingan.id,
 		},
 	});
-	await prisma.foodTagsOnFood.create({
-		data: {
-			uuid: uuidv4(),
-			foodId: foodSeedBikaAmbon.id,
-			foodTagsId: foodTagsSeedMakananRingan.id,
-		},
-	});
 
 	const foodRecipeSeedBingka = await prisma.foodRecipe.create({
 		data: {
@@ -1996,13 +1891,6 @@ async function main() {
 			calories: 374,
 			foodId: foodSeedBingka.id,
 			foodRecipeId: foodRecipeSeedBingka.id,
-		},
-	});
-	await prisma.foodTagsOnFood.create({
-		data: {
-			uuid: uuidv4(),
-			foodId: foodSeedBingka.id,
-			foodTagsId: foodTagsSeedMakananRingan.id,
 		},
 	});
 	await prisma.foodTagsOnFood.create({
@@ -2049,13 +1937,6 @@ async function main() {
 			foodTagsId: foodTagsSeedMakananRingan.id,
 		},
 	});
-	await prisma.foodTagsOnFood.create({
-		data: {
-			uuid: uuidv4(),
-			foodId: foodSeedBobengka.id,
-			foodTagsId: foodTagsSeedMakananRingan.id,
-		},
-	});
 
 	const foodRecipeSeedBoluPeca = await prisma.foodRecipe.create({
 		data: {
@@ -2093,13 +1974,6 @@ async function main() {
 			foodTagsId: foodTagsSeedMakananRingan.id,
 		},
 	});
-	await prisma.foodTagsOnFood.create({
-		data: {
-			uuid: uuidv4(),
-			foodId: foodSeedBoluPeca.id,
-			foodTagsId: foodTagsSeedMakananRingan.id,
-		},
-	});
 
 	const foodRecipeSeedBrem = await prisma.foodRecipe.create({
 		data: {
@@ -2128,13 +2002,6 @@ async function main() {
 			calories: 374,
 			foodId: foodSeedBrem.id,
 			foodRecipeId: foodRecipeSeedBrem.id,
-		},
-	});
-	await prisma.foodTagsOnFood.create({
-		data: {
-			uuid: uuidv4(),
-			foodId: foodSeedBrem.id,
-			foodTagsId: foodTagsSeedMakananRingan.id,
 		},
 	});
 	await prisma.foodTagsOnFood.create({
