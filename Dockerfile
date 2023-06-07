@@ -1,4 +1,4 @@
-FROM alpine:3.16
+FROM ubuntu:latest
 
 ENV PYTHONUNBUFFERED True
 
@@ -10,6 +10,9 @@ WORKDIR $APP_HOME
 
 COPY . ./
 
+RUN set -xe \
+    && apt-get update \
+    && apt-get install python3-pip
 RUN pip install --upgrade pip
 RUN pip install --upgrade setuptools
 RUN pip install ez_setup
