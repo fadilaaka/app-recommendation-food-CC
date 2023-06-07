@@ -299,40 +299,43 @@ def RecomendationSnackSiang(new_users):
     return recommended_foods5
 
 
-new_users = [
-    {
-        'Usia': 21,
-        'BB': 54.1,
-        'TB': 155.2,
-        'Jenis Kelamin': 'L',
-        'Riwayat Penyakit': '',
-        'Riwayat Alergi': 'Udang',
-        'Faktor Aktivitas': 'Kerja ringan',
-        'Faktor Stress': 'Stres Ringan',
-        'dislike_food': ''
-    }
-]
-
-RecommendedBreakfast = BreakfastRecomendation(new_users)
-RecommendedLunch = LunchRecomendation(new_users)
-RecommendedDinner = DinnerRecomendation(new_users)
-RecommendedSnackPagi = RecomendationSnackPagi(new_users)
-RecommendedSnackSiang = RecomendationSnackSiang(new_users)
-print("Recommended Breakfast:", RecommendedBreakfast[0])
-print("Recommended Lunch:", RecommendedLunch[0])
-print("Recommended Dinner:", RecommendedDinner[0])
-print("Recommended Snack Pagi:", RecommendedSnackPagi[0])
-print("Recommended Snack Siang:", RecommendedSnackSiang[0])
-
-
 @app.route('/')
 def hello():
     return 'Hello Flask'
 
 
-@app.route('/get-recommendation', methods=['GET'])
-def get_recommendation():
-    if request.method == 'GET':
+@app.route('/foods-recommendation', methods=['GET', 'POST'])
+def foods_recommendation():
+    if request.method == 'POST':
+        usia_user = request.form['usia_user']
+        berat_badan = request.form['berat_badan']
+        tinggi_badan = request.form['tinggi_badan']
+        jenis_kelamin = request.form['jenis_kelamin']
+        riwayat_penyakit = request.form['riwayat_penyakit']
+        riwayat_alergi = request.form['riwayat_alergi']
+        faktor_aktivitas = request.form['faktor_aktivitas']
+        faktor_stress = request.form['faktor_stress']
+        dislike_food = request.form['dislike_food']
+        new_users = [
+            {
+                'Usia': float(usia_user),
+                'BB': float(berat_badan),
+                'TB': float(tinggi_badan),
+                'Jenis Kelamin': jenis_kelamin,
+                'Riwayat Penyakit': riwayat_penyakit,
+                'Riwayat Alergi': riwayat_alergi,
+                'Faktor Aktivitas': faktor_aktivitas,
+                'Faktor Stress': faktor_stress,
+                'dislike_food': dislike_food
+            }
+        ]
+
+        RecommendedBreakfast = BreakfastRecomendation(new_users)
+        RecommendedLunch = LunchRecomendation(new_users)
+        RecommendedDinner = DinnerRecomendation(new_users)
+        RecommendedSnackPagi = RecomendationSnackPagi(new_users)
+        RecommendedSnackSiang = RecomendationSnackSiang(new_users)
+
         cursor = mysql.connection.cursor()
         cursor.execute(
             f"SELECT f.id AS food_id, f.uuid AS food_uuid, f.name AS food_name, f.description AS food_description, f.image AS food_image, f.price AS food_price, f.status AS food_status, f.foodTagsId AS food_tags_id, fd.id AS food_detail_id, fd.uuid AS food_detail_uuid, fd.fat AS food_detail_fat, fd.protein AS food_detail_protein, fd.carbohidrat AS food_detail_carbohidrat, fd.calories AS food_detail_calories, fr.id AS food_recipe_id, fr.uuid AS food_recipe_uuid, fr.name AS food_recipe_name, fr.description AS food_recipe_description, fr.image AS food_recipe_image, ft.id AS food_tags_id, ft.uuid AS food_tags_uuid, ft.name AS food_tags_name, ft.description AS food_tags_description, ft.image AS food_tags_image FROM Food AS f LEFT JOIN FoodDetail AS fd ON f.id = fd.foodId LEFT JOIN FoodRecipe AS fr ON f.id = fr.id LEFT JOIN FoodTags AS ft ON f.foodTagsId = ft.id WHERE f.name = '{RecommendedBreakfast[0]}'")
@@ -372,16 +375,6 @@ def get_recommendation():
                 "snacksiang": snacksiang,
             },
         ]}
-
-
-@app.route('/get-activity', methods=['GET'])
-def get_activity():
-    if request.method == 'GET':
-        cursor = mysql.connection.cursor()
-        cursor.execute("""SELECT * FROM activityfactor""")
-        user = cursor.fetchall()
-        print(user)
-        return {"data": user}
 
 
 if __name__ == '__main__':
