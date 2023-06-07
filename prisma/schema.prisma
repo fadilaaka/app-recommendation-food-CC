@@ -159,7 +159,7 @@ model Food {
     uuid        String  @unique
     name        String
     description String? @db.LongText
-    image       String?
+    image       String? @db.LongText
     price       Float?
     status      status  @default(publish)
 
@@ -247,7 +247,7 @@ model Article {
     uuid        String  @unique
     title       String
     description String? @db.LongText
-    image       String?
+    image       String? @db.LongText
     status      status  @default(publish)
 
     articleCategoryId Int?
@@ -265,7 +265,7 @@ model ArticleCategory {
     uuid        String  @unique
     name        String
     description String? @db.LongText
-    image       String?
+    image       String? 
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
