@@ -1,4 +1,4 @@
-FROM python:3.10-slim
+FROM alpine:3.16
 
 ENV PYTHONUNBUFFERED True
 
