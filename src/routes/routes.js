@@ -8,9 +8,7 @@ module.exports = (app) => {
 
 	// POST account
 	// GET USER
-	router.get('/get-allusers', apiController.getAllUsers);
-	router.get('/get-user/:id', apiController.getOneUser);
-	router.get('/get-user-detail/:uuid', apiController.getUserDetail);
+	router.get('/get-user/:uuid', apiController.getOneUserData);
 	router.get('/activity', apiController.getActivityFactor);
 	router.get('/allergy', apiController.getAllergy);
 	router.get('/disease', apiController.getDiseaseHistory);
