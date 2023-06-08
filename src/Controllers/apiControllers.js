@@ -188,6 +188,33 @@ module.exports = {
 		}
 	},
 
+	getFoodsLimit: async (req, res) => {
+		try {
+			const { page, limit } = req.query;
+			// const numberpage = Number(page);
+			// const numberlimit = Number(limit);
+			const foods = await prisma.foodDetail.findMany({
+				skip: (Number(page) - 1) * Number(limit),
+				take: Number(limit),
+				include: {
+					foodRecipe: true,
+					food: {
+						include: {
+							foodTags: true,
+						},
+					},
+				},
+			});
+			res.status(200).json({
+				foods,
+			});
+		} catch (error) {
+			res.status(500).json({
+				message: `Internal Server Error : ${error}`,
+			});
+		}
+	},
+
 	getFoodByUuid: async (req, res) => {
 		try {
 			const { uuid } = req.params;
