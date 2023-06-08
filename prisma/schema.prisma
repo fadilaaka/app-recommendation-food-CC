@@ -163,17 +163,13 @@ model Food {
     price       Float?
     status      status  @default(publish)
 
-    foodRecipeId Int?
-    foodTagsId   Int?
-
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
     foodDetail     FoodDetail[]
-    foodRecipe     FoodRecipe?      @relation(fields: [foodRecipeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-    foodTags       FoodTags?        @relation(fields: [foodTagsId], references: [id])
     foodTagsOnFood FoodTagsOnFood[]
+    foodRecipe     FoodRecipe[]
 }
 
 model FoodDetail {
@@ -184,15 +180,13 @@ model FoodDetail {
     carbohidrat Float?
     calories    Float?
 
-    foodRecipeId Int?
-    foodId       Int
+    foodId Int
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
-    food       Food        @relation(fields: [foodId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-    foodRecipe FoodRecipe? @relation(fields: [foodRecipeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    food Food @relation(fields: [foodId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model FoodRecipe {
@@ -200,7 +194,7 @@ model FoodRecipe {
     uuid        String  @unique
     name        String
     description String? @db.LongText
-    image       String?
+    image       String? @db.LongText
 
     foodId Int?
 
@@ -208,8 +202,7 @@ model FoodRecipe {
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
-    food       Food[]
-    foodDetail FoodDetail[]
+    food Food? @relation(fields: [foodId], references: [id])
 }
 
 model FoodTags {
@@ -223,7 +216,6 @@ model FoodTags {
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
-    food           Food[]
     foodTagsOnFood FoodTagsOnFood[]
 }
 
@@ -256,8 +248,8 @@ model Article {
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
-    articleCategory          ArticleCategory?           @relation(fields: [articleCategoryId], references: [id])
-    articleCategoryOnArticle ArticleCategoryOnArticle[]
+    articleCategory   ArticleCategory?           @relation(fields: [articleCategoryId], references: [id])
+    articleCategories ArticleCategoryOnArticle[]
 }
 
 model ArticleCategory {
@@ -265,14 +257,14 @@ model ArticleCategory {
     uuid        String  @unique
     name        String
     description String? @db.LongText
-    image       String? 
+    image       String?
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
-    article                  Article[]
-    articleCategoryOnArticle ArticleCategoryOnArticle[]
+    article           Article[]
+    articleCategories ArticleCategoryOnArticle[]
 }
 
 model ArticleCategoryOnArticle {
