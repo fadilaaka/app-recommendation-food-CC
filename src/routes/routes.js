@@ -17,6 +17,7 @@ module.exports = (app) => {
 	router.get('/stress', apiController.getStressFactor);
 
 	router.get('/foods', apiController.getAllFoodswithDetail);
+	router.get('/foods-get', apiController.getFoodsLimit);
 	router.get('/foods/:uuid', apiController.getFoodByUuid);
 	// router.get('/article', apiController.getArticle);
 	// router.post('/login', apiController.postLogin);
