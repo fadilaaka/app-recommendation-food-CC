@@ -1785,3 +1785,7 @@
 ::1 - - [09/Jun/2023:10:14:56 +0000] "GET /api/v1/foods-get?page=2&limit=5 HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
 ::1 - - [09/Jun/2023:10:14:59 +0000] "GET /api/v1/foods-get?page=29&limit=5 HTTP/1.1" 200 6847 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
 ::1 - - [09/Jun/2023:10:15:07 +0000] "GET /api/v1/foods/7d6d9252-de82-4aa1-a68f-37a028ea7872 HTTP/1.1" 200 1266 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+127.0.0.1 - - [09/Jun/2023:13:14:43 +0000] "GET / HTTP/1.1" 404 139 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+127.0.0.1 - - [09/Jun/2023:13:14:53 +0000] "GET /api/v1/get-allfoods HTTP/1.1" 404 158 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+127.0.0.1 - - [09/Jun/2023:13:14:59 +0000] "GET /api/v1/foods HTTP/1.1" 200 569099 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+127.0.0.1 - - [09/Jun/2023:13:14:59 +0000] "GET /favicon.ico HTTP/1.1" 404 150 "http://localhost:8080/api/v1/foods" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
