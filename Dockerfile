@@ -1,5 +1,5 @@
 FROM node:14.21.2-alpine
-WORKDIR /app
+WORKDIR ./src
 ENV PORT 5000
 COPY . .
 RUN npm install
