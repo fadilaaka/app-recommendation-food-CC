@@ -13,6 +13,7 @@ const device = require('express-device');
 global.__basedir = __dirname;
 
 const app = express();
+const HOST = '0.0.0.0';
 const PORT = process.env.PORT || 8080;
 const accessLogStream = fs.createWriteStream(
 	path.join(__dirname, 'access.log'),
@@ -35,6 +36,6 @@ require('./routes/user.routes')(app);
 require('./routes/auth.routes')(app);
 require('./routes/article.routes')(app);
 
-app.listen(PORT, () => {
+app.listen(PORT, HOST, () => {
 	console.log(`App listening on port ${PORT}`);
 });
