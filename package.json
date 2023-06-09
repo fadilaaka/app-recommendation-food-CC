@@ -2,7 +2,7 @@
 	"name": "aplikasi-rekomendasi-food",
 	"version": "1.0.0",
 	"description": "",
-	"main": "index.js",
+	"main": "src/index.js",
 	"prisma": {
 		"seed": "node prisma/seed.js"
 	},
