@@ -13,8 +13,11 @@ const device = require('express-device');
 global.__basedir = __dirname;
 
 const app = express();
-const PORT = process.env.PORT || 5000;
-const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
+const PORT = process.env.PORT || 8080;
+const accessLogStream = fs.createWriteStream(
+	path.join(__dirname, 'access.log'),
+	{ flags: 'a' },
+);
 const corsOptions = {
 	origin: process.env.ORIGIN_CORS,
 };
