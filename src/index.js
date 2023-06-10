@@ -28,12 +28,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(device.capture());
 app.use(morgan('combined', { stream: accessLogStream }));
 
-require('./src/routes/routes')(app);
-require('./src/routes/admin.routes')(app);
-require('./src/routes/user.routes')(app);
-require('./src/routes/auth.routes')(app);
-require('./src/routes/article.routes')(app);
+require('./routes/routes')(app);
+require('./routes/admin.routes')(app);
+require('./routes/user.routes')(app);
+require('./routes/auth.routes')(app);
+require('./routes/article.routes')(app);
 
-app.listen(process.env.PORT || 8080, '0.0.0.0', () => {
-	console.log('App listening on port 8080');
+app.listen(process.env.EXPRESS_PORT || 8080, '0.0.0.0', () => {
+	console.log(`App listening on port ${process.env.EXPRESS_PORT || 8080}`);
 });
