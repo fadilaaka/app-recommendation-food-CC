@@ -5,79 +5,32 @@ const bcrypt = require('bcryptjs');
 
 module.exports = {
 	// GET
-	getAllUsers: async (req, res) => {
-		try {
-			const users = await prisma.user.findMany({
-				select: {
-					uuid: true,
-					name: true,
-					gender: true,
-					weight: true,
-					height: true,
-					budget: true,
-					birthday: true,
-				},
-			});
-			res.status(200).json({
-				users,
-			});
-		} catch (error) {
-			res.status(500).json({
-				message: `Internal Server Error: ${error}`,
-			});
-		}
-	},
-
-	getUserDetail: async (req, res) => {
-		// Butuh relasional retrieve data table
+	getOneUserData: async (req, res) => {
 		try {
 			const { uuid } = req.params;
-			const user = await prisma.userDetail.findUnique({
+			const user = await prisma.user.findUnique({
 				where: {
 					uuid,
 				},
-				// include: {
-				// 	uuid: true,
-				// 	userId: true,
-				// 	diseaseHistory: true,
-				// 	allergyId: true,
-				// 	activityFactorId: true,
-				// 	stressFactorId: true,
-				// },
 				select: {
 					uuid: true,
-					user: true,
-					diseaseHistory: true,
-					allergy: true,
-					activityFactor: true,
-					stressFactor: true,
-				},
-			});
-			res.status(200).json({
-				user,
-			});
-		} catch (error) {
-			res.status(500).json({
-				message: `${error}`,
-			});
-		}
-	},
-
-	getOneUser: async (req, res) => {
-		try {
-			const { id } = req.params;
-			const user = await prisma.user.findUnique({
-				where: {
-					uuid: id,
-				},
-				select: {
-					uuid: true,
+					email: true,
 					name: true,
 					gender: true,
 					weight: true,
 					height: true,
 					budget: true,
 					birthday: true,
+					userDetail: {
+						select: {
+							diseaseHistories: true,
+							diseaseHistory: true,
+							allergies: true,
+							allergy: true,
+							activityFactor: true,
+							stressFactor: true,
+						},
+					},
 				},
 			});
 			res.status(200).json({
@@ -92,13 +45,7 @@ module.exports = {
 
 	getActivityFactor: async (req, res) => {
 		try {
-			const activity = await prisma.activityFactor.findMany({
-				select: {
-					uuid: true,
-					name: true,
-					description: true,
-				},
-			});
+			const activity = await prisma.activityFactor.findMany();
 			res.status(200).json({
 				activity,
 			});
@@ -168,14 +115,11 @@ module.exports = {
 
 	getAllFoodswithDetail: async (req, res) => {
 		try {
-			const foods = await prisma.foodDetail.findMany({
+			const foods = await prisma.food.findMany({
 				include: {
+					foodDetail: true,
 					foodRecipe: true,
-					food: {
-						include: {
-							foodTags: true,
-						},
-					},
+					foodTagsOnFood: true,
 				},
 			});
 			res.status(200).json({
@@ -193,16 +137,13 @@ module.exports = {
 			const { page, limit } = req.query;
 			// const numberpage = Number(page);
 			// const numberlimit = Number(limit);
-			const foods = await prisma.foodDetail.findMany({
+			const foods = await prisma.food.findMany({
 				skip: (Number(page) - 1) * Number(limit),
 				take: Number(limit),
 				include: {
+					foodDetail: true,
 					foodRecipe: true,
-					food: {
-						include: {
-							foodTags: true,
-						},
-					},
+					foodTagsOnFood: true,
 				},
 			});
 			res.status(200).json({
@@ -218,17 +159,14 @@ module.exports = {
 	getFoodByUuid: async (req, res) => {
 		try {
 			const { uuid } = req.params;
-			const food = await prisma.foodDetail.findUnique({
+			const food = await prisma.food.findUnique({
 				where: {
 					uuid,
 				},
 				include: {
+					foodDetail: true,
 					foodRecipe: true,
-					food: {
-						include: {
-							foodTags: true,
-						},
-					},
+					foodTagsOnFood: true,
 				},
 			});
 			res.status(200).json({

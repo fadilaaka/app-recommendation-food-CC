@@ -1,4 +1,20 @@
 -- CreateTable
+CREATE TABLE `Admin` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `uuid` VARCHAR(191) NOT NULL,
+    `email` VARCHAR(191) NOT NULL,
+    `password` VARCHAR(191) NULL,
+    `name` VARCHAR(191) NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+    `deletedAt` DATETIME(3) NULL,
+
+    UNIQUE INDEX `Admin_uuid_key`(`uuid`),
+    UNIQUE INDEX `Admin_email_key`(`email`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `User` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `uuid` VARCHAR(191) NOT NULL,
@@ -6,7 +22,7 @@ CREATE TABLE `User` (
     `password` VARCHAR(191) NULL,
     `name` VARCHAR(191) NULL,
     `gender` VARCHAR(191) NULL,
-    `age` INTEGER NULL,
+    `birthday` DATE NULL,
     `weight` DOUBLE NULL,
     `height` DOUBLE NULL,
     `budget` INTEGER NULL,
@@ -24,7 +40,7 @@ CREATE TABLE `DiseaseHistory` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `uuid` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NULL,
+    `description` LONGTEXT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `deletedAt` DATETIME(3) NULL,
@@ -38,7 +54,7 @@ CREATE TABLE `Allergy` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `uuid` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NULL,
+    `description` LONGTEXT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `deletedAt` DATETIME(3) NULL,
@@ -52,7 +68,7 @@ CREATE TABLE `ActivityFactor` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `uuid` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NULL,
+    `description` LONGTEXT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `deletedAt` DATETIME(3) NULL,
@@ -66,7 +82,7 @@ CREATE TABLE `StressFactor` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `uuid` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NULL,
+    `description` LONGTEXT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `deletedAt` DATETIME(3) NULL,
@@ -94,16 +110,42 @@ CREATE TABLE `UserDetail` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `userDetailOnAlergy` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `uuid` VARCHAR(191) NOT NULL,
+    `userDetailId` INTEGER NOT NULL,
+    `allergyId` INTEGER NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+    `deletedAt` DATETIME(3) NULL,
+
+    UNIQUE INDEX `userDetailOnAlergy_uuid_key`(`uuid`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `userDetailOnDiseaseHistory` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `uuid` VARCHAR(191) NOT NULL,
+    `userDetailId` INTEGER NOT NULL,
+    `diseaseHistoryId` INTEGER NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+    `deletedAt` DATETIME(3) NULL,
+
+    UNIQUE INDEX `userDetailOnDiseaseHistory_uuid_key`(`uuid`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `Food` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `uuid` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NULL,
-    `image` VARCHAR(191) NULL,
+    `description` LONGTEXT NULL,
+    `image` LONGTEXT NULL,
     `price` DOUBLE NULL,
     `status` ENUM('publish', 'unpublish') NOT NULL DEFAULT 'publish',
-    `foodRecipeId` INTEGER NULL,
-    `foodTagsId` INTEGER NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `deletedAt` DATETIME(3) NULL,
@@ -120,7 +162,6 @@ CREATE TABLE `FoodDetail` (
     `protein` DOUBLE NULL,
     `carbohidrat` DOUBLE NULL,
     `calories` DOUBLE NULL,
-    `foodRecipeId` INTEGER NULL,
     `foodId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
@@ -135,9 +176,9 @@ CREATE TABLE `FoodRecipe` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `uuid` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NULL,
-    `image` VARCHAR(191) NULL,
-    `foodId` INTEGER NOT NULL,
+    `description` LONGTEXT NULL,
+    `image` LONGTEXT NULL,
+    `foodId` INTEGER NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `deletedAt` DATETIME(3) NULL,
@@ -151,9 +192,8 @@ CREATE TABLE `FoodTags` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `uuid` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NULL,
+    `description` LONGTEXT NULL,
     `image` VARCHAR(191) NULL,
-    `foodId` INTEGER NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `deletedAt` DATETIME(3) NULL,
@@ -181,8 +221,8 @@ CREATE TABLE `Article` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `uuid` VARCHAR(191) NOT NULL,
     `title` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NULL,
-    `image` VARCHAR(191) NULL,
+    `description` LONGTEXT NULL,
+    `image` LONGTEXT NULL,
     `status` ENUM('publish', 'unpublish') NOT NULL DEFAULT 'publish',
     `articleCategoryId` INTEGER NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -198,7 +238,7 @@ CREATE TABLE `ArticleCategory` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `uuid` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NULL,
+    `description` LONGTEXT NULL,
     `image` VARCHAR(191) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
@@ -222,14 +262,31 @@ CREATE TABLE `ArticleCategoryOnArticle` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `userTokenResetPassword` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `uuid` VARCHAR(191) NOT NULL,
+    `userId` INTEGER NOT NULL,
+    `token` VARCHAR(191) NOT NULL,
+    `expire` DATETIME(3) NOT NULL,
+    `isUsed` BOOLEAN NOT NULL DEFAULT false,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+    `deletedAt` DATETIME(3) NULL,
+
+    UNIQUE INDEX `userTokenResetPassword_uuid_key`(`uuid`),
+    UNIQUE INDEX `userTokenResetPassword_token_key`(`token`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
 ALTER TABLE `UserDetail` ADD CONSTRAINT `UserDetail_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `UserDetail` ADD CONSTRAINT `UserDetail_diseaseHistoryId_fkey` FOREIGN KEY (`diseaseHistoryId`) REFERENCES `DiseaseHistory`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `UserDetail` ADD CONSTRAINT `UserDetail_allergyId_fkey` FOREIGN KEY (`allergyId`) REFERENCES `Allergy`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `UserDetail` ADD CONSTRAINT `UserDetail_allergyId_fkey` FOREIGN KEY (`allergyId`) REFERENCES `Allergy`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `UserDetail` ADD CONSTRAINT `UserDetail_diseaseHistoryId_fkey` FOREIGN KEY (`diseaseHistoryId`) REFERENCES `DiseaseHistory`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `UserDetail` ADD CONSTRAINT `UserDetail_activityFactorId_fkey` FOREIGN KEY (`activityFactorId`) REFERENCES `ActivityFactor`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -238,19 +295,25 @@ ALTER TABLE `UserDetail` ADD CONSTRAINT `UserDetail_activityFactorId_fkey` FOREI
 ALTER TABLE `UserDetail` ADD CONSTRAINT `UserDetail_stressFactorId_fkey` FOREIGN KEY (`stressFactorId`) REFERENCES `StressFactor`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Food` ADD CONSTRAINT `Food_foodRecipeId_fkey` FOREIGN KEY (`foodRecipeId`) REFERENCES `FoodRecipe`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `userDetailOnAlergy` ADD CONSTRAINT `userDetailOnAlergy_userDetailId_fkey` FOREIGN KEY (`userDetailId`) REFERENCES `UserDetail`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Food` ADD CONSTRAINT `Food_foodTagsId_fkey` FOREIGN KEY (`foodTagsId`) REFERENCES `FoodTags`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `userDetailOnAlergy` ADD CONSTRAINT `userDetailOnAlergy_allergyId_fkey` FOREIGN KEY (`allergyId`) REFERENCES `Allergy`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `FoodDetail` ADD CONSTRAINT `FoodDetail_foodId_fkey` FOREIGN KEY (`foodId`) REFERENCES `Food`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `userDetailOnDiseaseHistory` ADD CONSTRAINT `userDetailOnDiseaseHistory_userDetailId_fkey` FOREIGN KEY (`userDetailId`) REFERENCES `UserDetail`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `FoodDetail` ADD CONSTRAINT `FoodDetail_foodRecipeId_fkey` FOREIGN KEY (`foodRecipeId`) REFERENCES `FoodRecipe`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `userDetailOnDiseaseHistory` ADD CONSTRAINT `userDetailOnDiseaseHistory_diseaseHistoryId_fkey` FOREIGN KEY (`diseaseHistoryId`) REFERENCES `DiseaseHistory`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `FoodTagsOnFood` ADD CONSTRAINT `FoodTagsOnFood_foodId_fkey` FOREIGN KEY (`foodId`) REFERENCES `Food`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `FoodDetail` ADD CONSTRAINT `FoodDetail_foodId_fkey` FOREIGN KEY (`foodId`) REFERENCES `Food`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `FoodRecipe` ADD CONSTRAINT `FoodRecipe_foodId_fkey` FOREIGN KEY (`foodId`) REFERENCES `Food`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `FoodTagsOnFood` ADD CONSTRAINT `FoodTagsOnFood_foodId_fkey` FOREIGN KEY (`foodId`) REFERENCES `Food`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `FoodTagsOnFood` ADD CONSTRAINT `FoodTagsOnFood_foodTagsId_fkey` FOREIGN KEY (`foodTagsId`) REFERENCES `FoodTags`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -259,7 +322,10 @@ ALTER TABLE `FoodTagsOnFood` ADD CONSTRAINT `FoodTagsOnFood_foodTagsId_fkey` FOR
 ALTER TABLE `Article` ADD CONSTRAINT `Article_articleCategoryId_fkey` FOREIGN KEY (`articleCategoryId`) REFERENCES `ArticleCategory`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `ArticleCategoryOnArticle` ADD CONSTRAINT `ArticleCategoryOnArticle_articleId_fkey` FOREIGN KEY (`articleId`) REFERENCES `Article`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `ArticleCategoryOnArticle` ADD CONSTRAINT `ArticleCategoryOnArticle_articleId_fkey` FOREIGN KEY (`articleId`) REFERENCES `Article`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `ArticleCategoryOnArticle` ADD CONSTRAINT `ArticleCategoryOnArticle_articleCategoryId_fkey` FOREIGN KEY (`articleCategoryId`) REFERENCES `ArticleCategory`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `userTokenResetPassword` ADD CONSTRAINT `userTokenResetPassword_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

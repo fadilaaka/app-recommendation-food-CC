@@ -7,9 +7,9 @@
 		"seed": "node prisma/seed.js"
 	},
 	"scripts": {
-		"start": "node src/index.js",
+		"start": "node index.js",
 		"test": "jest",
-		"dev": "nodemon src/index.js"
+		"dev": "nodemon index.js"
 	},
 	"author": "",
 	"license": "ISC",
@@ -30,7 +30,7 @@
 		"form-data": "^4.0.0",
 		"helmet": "^7.0.0",
 		"jsonwebtoken": "^9.0.0",
-		"mailgun.js": "^9.0.0",
+		"mailgun.js": "^9.0.1",
 		"morgan": "^1.10.0",
 		"uuid": "^9.0.0"
 	},
