@@ -34,6 +34,6 @@ require('./src/routes/user.routes')(app);
 require('./src/routes/auth.routes')(app);
 require('./src/routes/article.routes')(app);
 
-app.listen(process.env.PORT || 5000, () => {
-	console.log(`App listening on port ${5000}`);
+app.listen(process.env.PORT || 8080, '0.0.0.0', () => {
+	console.log('App listening on port 8080');
 });
