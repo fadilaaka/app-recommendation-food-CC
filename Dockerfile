@@ -1,16 +1,7 @@
-FROM node:10
-
-WORKDIR /src
-
-ENV PORT 8080
-ENV HOST 0.0.0.0
-
-COPY package*.json ./
-
-RUN npm install 
-
+FROM node:14.21.2-alpine
+WORKDIR /app
+ENV PORT 5000
 COPY . .
-
-RUN npm run build
-
-CMD npm start
+RUN npm install
+EXPOSE 5000
+CMD [ "npm", "run", "start"]

@@ -2,14 +2,14 @@
 	"name": "aplikasi-rekomendasi-food",
 	"version": "1.0.0",
 	"description": "",
-	"main": "src/index.js",
+	"main": "index.js",
 	"prisma": {
 		"seed": "node prisma/seed.js"
 	},
 	"scripts": {
-		"start": "node src/index.js",
+		"start": "node index.js",
 		"test": "jest",
-		"dev": "nodemon src/index.js"
+		"dev": "nodemon index.js"
 	},
 	"author": "",
 	"license": "ISC",

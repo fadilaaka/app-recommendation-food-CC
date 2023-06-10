@@ -13,8 +13,6 @@ const device = require('express-device');
 global.__basedir = __dirname;
 
 const app = express();
-const HOST = '0.0.0.0';
-const PORT = process.env.PORT || 8080;
 const accessLogStream = fs.createWriteStream(
 	path.join(__dirname, 'access.log'),
 	{ flags: 'a' },
@@ -30,12 +28,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(device.capture());
 app.use(morgan('combined', { stream: accessLogStream }));
 
-require('./routes/routes')(app);
-require('./routes/admin.routes')(app);
-require('./routes/user.routes')(app);
-require('./routes/auth.routes')(app);
-require('./routes/article.routes')(app);
+require('./src/routes/routes')(app);
+require('./src/routes/admin.routes')(app);
+require('./src/routes/user.routes')(app);
+require('./src/routes/auth.routes')(app);
+require('./src/routes/article.routes')(app);
 
-app.listen(PORT, HOST, () => {
-	console.log(`App listening on port ${PORT}`);
+app.listen(process.env.PORT || 5000, () => {
+	console.log(`App listening on port ${5000}`);
 });
