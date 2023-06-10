@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "aplikasi-rekomendasi-food",
+  "private_key_id": "c5d232010e49f58903d6fad5739be8e60838f00b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEugIBADANBgkqhkiG9w0BAQEFAASCBKQwggSgAgEAAoIBAQC8iJu0gJH3E2xK\nFUvo2b6VEQgdfj4Kgj6ZcoMGnCA9phVtfJO0RQr71r5fa/th/tG4HFvFM/fZo6e1\nU4FbfQmQQAEi986yRHoPMGIGsOC9KxE+TfA1GXez5havuZu/x7DzQSCDjJRN6PXx\n1OKi+BIX8qNNt6Xgy/nB813fnb9eVlnRFCjvqZ9BM5w63cCAF/Tat+PiEqpRq/sr\nIWReEtnW60NBx8sqDzD/xjTfk9QF3CXhYzHL1QHNb6MEIwSmU89FlQ5sbtyTI1to\n8kIqXF9LV6IaueXnY+YQbQHCPLsqUFDAN7neMMydxY2yFs54cWgyIxCmYwsOTB0V\nQYUuVAG9AgMBAAECggEAHxhz//s1t/f45CYrkUH6tFjtCvpDrtWJECOKN1igW7Kt\nNZP2w6SgmWVznEbx3Rmbiv+IZlf6MOgUdOyLOSUAIw3fch5HtfDj5eXvwRVC2AiG\nrU1LCWMEMoSIaN7W8LR1u8VZ4MCaxFfgWsznPYRnbZI8O4kG/7L85G+oo8V/pwYT\nfWSZeFNHcIl5mI3dc9eu+g1+R0VXxwYe4c4KRZf41pD2bc084K0lMF8K89d68htL\nTFqNuQ95gMb06ScfoereSKKmha04VohxSt+wzgp6lH1pMPTGHEpgyw4k8tdqgU7k\nwotNOOlXRyX3kCD+4mEwHZyMQWphZxfueC2zAT1/0QKBgQD40z13jsF5wBzBOv4M\nZqkGLe7gunCKJF09sqLPFz95vpWtb+pyaAupz4BPduTSfO4X7HkwkHHEBdUgaYo4\n3xLvYJT1kcYSYb7MPZoxrY7t3uQSq1+4Df0+Z3nMDpHuwu4YT83HySx9OhyosES1\nfmSv4KmyZa5FVGJgFW1Z/Xs/TQKBgQDB+E/3knJWwh67pFgiL9Khx/fzcMbT8vpM\nktaTuOQfBJ3d/R5S53fz+luwZXVWAvcCVJ9ONNEW5bxZbXwse5EuKAOgy44v47Rd\nWwftZSFQpYLKVTZnWd21oPtndgW/FSCszBdFuJEuNwpRNV3DqQJdUci19ZE40QCb\n6rqRikZ0MQKBgD9DvlIiqtCg5u6+aA+RHpKipSTgYnLNMiPYwopy98GlknrphKuY\nBrcjOhV6Pk3CU+sjReDyKOrVLM4z51/0X+UbImSZrsnHrnJRi13sKfYTANw6VHkA\nnY37Uz1tyu7xAwaNa93LKZOhbd36C042F7WcIqloLvoTrXuOlyIVT/vVAn8PJ1cY\nAFjubjv4bN51zUanXPgCDM17wX/Me6xH3in0QmgS77NuxqaYaPbA0SxZi+HATNwl\nP/sVztzoH6WT1BODh5zA8yYol6F/qZz07vGrW0Lci8u0R1EK34jEjHPmecATv94R\nlFnDQomLzp+Eqa+Fmt4TWRv/VFS32Z65wBPBAoGAR+sMNezxBmXhwyy0Xr9PI2vb\npJC8YzUh5aVnwFGW19M1tqq4HBLaYTI2OBu8CaGep4BvI1CdkGkTQVi6+EwfHxwB\nyLHKsIVMpgms9P2rFBj588CY51az3cM74npsdNe3UgFs5Vw8H5dMNgGkZEGdsWjo\nb7K+1TLSGaMq9KGYjMM=\n-----END PRIVATE KEY-----\n",
+  "client_email": "flask-image@aplikasi-rekomendasi-food.iam.gserviceaccount.com",
+  "client_id": "104522241984588244950",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/flask-image%40aplikasi-rekomendasi-food.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
