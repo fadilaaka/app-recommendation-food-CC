@@ -14,6 +14,7 @@ const getArticle = async (req, res) => {
 					status: 'publish',
 				},
 				select: {
+					id: true,
 					uuid: true,
 					title: true,
 					description: true,
@@ -52,6 +53,7 @@ const getArticles = async (req, res) => {
 	try {
 		const articles = await prisma.article.findMany({
 			select: {
+				id: true,
 				uuid: true,
 				title: true,
 				description: true,
@@ -89,6 +91,7 @@ const getArticleByPage = async (req, res) => {
 
 		const articles = await prisma.article.findMany({
 			select: {
+				id: true,
 				uuid: true,
 				title: true,
 				description: true,
