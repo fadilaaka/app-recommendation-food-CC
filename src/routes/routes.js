@@ -1,4 +1,6 @@
 const apiController = require('../Controllers/apiControllers');
+const { listLikeDislikeFood, foodLikeAttempt, foodDisLikeAttempt } = require('../Controllers/foodController');
+const { verifyToken } = require('../Middlewares/userAuthorizationMiddleware');
 
 /* eslint-disable global-require */
 module.exports = (app) => {
@@ -16,7 +18,11 @@ module.exports = (app) => {
 
 	router.get('/foods', apiController.getAllFoodswithDetail);
 	router.get('/foods-get', apiController.getFoodsLimit);
+	router.get('/foods/status', verifyToken, listLikeDislikeFood);
 	router.get('/foods/:uuid', apiController.getFoodByUuid);
+
+	router.get('/food/like', verifyToken, foodLikeAttempt);
+	router.get('/food/dislike', verifyToken, foodDisLikeAttempt);
 	// router.get('/article', apiController.getArticle);
 	// router.post('/login', apiController.postLogin);
 	// router.get('/get-user/:id', checkValidJWT, apiController.getOneUser);

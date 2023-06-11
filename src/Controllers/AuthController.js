@@ -32,6 +32,7 @@ const LoginAttempt = async (req, res) => {
 
 		const token = jwt.sign(
 			{
+				id: user.id,
 				uuid: user.uuid,
 				email: user.email,
 			},
@@ -160,6 +161,7 @@ const registerAttempt = async (req, res) => {
 
 		const token = jwt.sign(
 			{
+				id: user.id,
 				uuid: newUser.uuid,
 				email: newUser.email,
 			},

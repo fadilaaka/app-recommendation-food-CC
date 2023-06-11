@@ -45,6 +45,8 @@ model User {
 
     userDetail             UserDetail?
     userTokenResetPassword userTokenResetPassword[]
+    foodLike               FoodLike[]
+    foodDislike            FoodDislike[]
 }
 
 model DiseaseHistory {
@@ -170,6 +172,8 @@ model Food {
     foodDetail     FoodDetail[]
     foodTagsOnFood FoodTagsOnFood[]
     foodRecipe     FoodRecipe[]
+    foodLike       FoodLike[]
+    foodDislike    FoodDislike[]
 }
 
 model FoodDetail {
@@ -232,6 +236,36 @@ model FoodTagsOnFood {
 
     food     Food     @relation(fields: [foodId], references: [id], onDelete: Cascade, onUpdate: Cascade)
     foodTags FoodTags @relation(fields: [foodTagsId], references: [id], onUpdate: Cascade)
+}
+
+model FoodLike {
+    id   Int    @id @default(autoincrement())
+    uuid String @unique
+
+    foodId Int
+    userId Int
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+
+    food Food @relation(fields: [foodId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model FoodDislike {
+    id   Int    @id @default(autoincrement())
+    uuid String @unique
+
+    foodId Int
+    userId Int
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+
+    food Food @relation(fields: [foodId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Article {
