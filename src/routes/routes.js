@@ -21,8 +21,8 @@ module.exports = (app) => {
 	router.get('/foods/status', verifyToken, listLikeDislikeFood);
 	router.get('/foods/:uuid', apiController.getFoodByUuid);
 
-	router.get('/food/like', verifyToken, foodLikeAttempt);
-	router.get('/food/dislike', verifyToken, foodDisLikeAttempt);
+	router.post('/food/like', verifyToken, foodLikeAttempt);
+	router.post('/food/dislike', verifyToken, foodDisLikeAttempt);
 	// router.get('/article', apiController.getArticle);
 	// router.post('/login', apiController.postLogin);
 	// router.get('/get-user/:id', checkValidJWT, apiController.getOneUser);
