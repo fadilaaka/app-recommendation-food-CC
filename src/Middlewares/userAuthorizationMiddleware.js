@@ -42,7 +42,20 @@ const verifyValidTokenReset = async (req, res, next) => {
 		if (typeof token !== 'undefined') {
 			const userToken = await prisma.userTokenResetPassword.findFirstOrThrow({
 				where: {
-					token,
+					token: parseInt(token, 10),
+				},
+				select: {
+					id: true,
+					token: true,
+					isUsed: true,
+					createdAt: true,
+					updatedAt: true,
+					userId: true,
+					user: {
+						select: {
+							uuid: true,
+						},
+					},
 				},
 			}).catch((err) => {
 				if (err instanceof Prisma.PrismaClientKnownRequestError) {
@@ -54,14 +67,15 @@ const verifyValidTokenReset = async (req, res, next) => {
 				throw Object.assign(new Error('Token already used'), { code: 400 });
 			}
 
+			req.userToken = userToken;
 			next();
 		} else {
 			throw Object.assign(new Error('Token not provided'), { code: 403 });
 		}
 	} catch (error) {
-		res.status(error.code).json({
+		res.status(error.code || 500).json({
 			status: 'failed',
-			code: error.code,
+			code: error.code || 500,
 			message: error.message,
 			data: error.message,
 		});

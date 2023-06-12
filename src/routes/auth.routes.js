@@ -6,6 +6,7 @@ const {
 	registerAttempt,
 	resetPassword,
 	forgetPassword,
+	verifToken,
 } = require('../Controllers/AuthController');
 const { verifyToken, verifyValidTokenReset } = require('../Middlewares/userAuthorizationMiddleware');
 const {
@@ -23,6 +24,7 @@ module.exports = (app) => {
 	router.get('/user', verifyToken, getUser);
 
 	router.post('/forget-password', forgetPasswordValidator, validate, forgetPassword);
+	router.post('/token-verif', verifToken);
 	router.post('/reset-password/:token', verifyValidTokenReset, resetPasswordValidator, validate, resetPassword);
 
 	app.use('/api/v1', router);

@@ -161,7 +161,6 @@ const registerAttempt = async (req, res) => {
 
 		const token = jwt.sign(
 			{
-				id: user.id,
 				uuid: newUser.uuid,
 				email: newUser.email,
 			},
@@ -193,28 +192,20 @@ const forgetPassword = async (req, res) => {
 			return res.status(400).json({ status: 'failed', code: 400, message: 'Email not registered' });
 		}
 
-		const token = jwt.sign(
-			{
-				uuid: user.uuid,
-				email: user.email,
-			},
-			process.env.JWT_SECRET,
-			{ expiresIn: '1h' },
-		);
+		const token = Math.floor(Math.random() * 999999);
 
 		const message = `
 			<h1>Reset Password</h1>
-			<p>Click this link to reset your password</p>
-			<a href="${process.env.CLIENT_URL}/api/v1/reset-password/${token}">Reset Password</a>
+			<p>your token is: ${token}</p>
 			`;
 
 		sendEmail(email, 'Reset Password', message);
 
-		prisma.userTokenResetPassword.create({
+		await prisma.userTokenResetPassword.create({
 			data: {
 				token,
 				uuid: uuidv4(),
-				expire: new Date(Date.now() + 3600000).toISOString().slice(0, 19).replace('T', ' '),
+				expire: new Date(Date.now() + 3600000),
 				user: {
 					connect: {
 						uuid: user.uuid,
@@ -234,12 +225,38 @@ const forgetPassword = async (req, res) => {
 	}
 };
 
+const verifToken = async (req, res) => {
+	try {
+		const { token } = req.body;
+
+		const userToken = await prisma.userTokenResetPassword.findFirst({
+			where: {
+				token,
+			},
+		});
+
+		if (!userToken) {
+			return res.status(400).json({ status: 'failed', code: 400, message: 'Token not found' });
+		}
+
+		if (new Date(userToken.expire) < new Date()) {
+			return res.status(400).json({ status: 'failed', code: 400, message: 'Token expired' });
+		}
+
+		return res.status(200).json({
+			status: 'success',
+			code: 200,
+			message: 'Success Verif Token',
+		});
+	} catch (error) {
+		return res.status(500).json({ status: 'failed', code: 500, message: `Internal Server Error: ${error}` });
+	}
+};
+
 const resetPassword = async (req, res) => {
 	try {
 		const { password, passwordConfirm } = req.body;
 		const { token } = req.params;
-
-		const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
 		if (password !== passwordConfirm) {
 			return res.status(400).json({ status: 'failed', code: 400, message: 'Password not match' });
@@ -250,7 +267,7 @@ const resetPassword = async (req, res) => {
 
 		const user = await prisma.user.update({
 			where: {
-				uuid: decoded.uuid,
+				uuid: req.userToken.user.uuid,
 			},
 			data: {
 				password: hashedPassword,
@@ -263,7 +280,7 @@ const resetPassword = async (req, res) => {
 
 		await prisma.userTokenResetPassword.update({
 			where: {
-				token,
+				token: parseInt(token, 10),
 			},
 			data: {
 				isUsed: true,
@@ -287,4 +304,5 @@ module.exports = {
 	registerAttempt,
 	forgetPassword,
 	resetPassword,
+	verifToken,
 };

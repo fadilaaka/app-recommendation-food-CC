@@ -40,7 +40,9 @@ module.exports.resetPasswordValidator = [
 		.isLength({ min: 8 })
 		.isAlphanumeric()
 		.withMessage('password must contain at least 8 characters and alphanumeric'),
-	body('passwordConfirm').matches('password').withMessage('password did not match'),
+	body('passwordConfirm').exists({ checkFalsy: true }).withMessage('You must type a confirmation password')
+		.custom((value, { req }) => value === req.body.password)
+		.withMessage('The passwords do not match'),
 ];
 
 module.exports.editUserValidator = [

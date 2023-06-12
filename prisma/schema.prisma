@@ -321,7 +321,7 @@ model userTokenResetPassword {
     uuid String @unique
 
     userId Int
-    token  String   @unique
+    token  Int      @unique
     expire DateTime
     isUsed Boolean  @default(false)
 
