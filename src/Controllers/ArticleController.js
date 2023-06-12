@@ -36,7 +36,7 @@ const getArticle = async (req, res) => {
 			});
 
 		article.image = article.image
-			? `${process.env.STORAGE_URL}/images/${article.image}`
+			? `${article.image}`
 			: null;
 
 		return res.status(200).json({ status: 'success', code: 200, article });
