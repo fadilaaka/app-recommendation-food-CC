@@ -69,7 +69,7 @@ const getArticles = async (req, res) => {
 
 		const data = await articles.map((article) => {
 			article.image = article.image
-				? `${process.env.STORAGE_URL}/images/${article.image}`
+				? `${article.image}`
 				: null;
 
 			return article;
@@ -108,7 +108,7 @@ const getArticleByPage = async (req, res) => {
 
 		const data = await articles.map((article) => {
 			article.image = article.image
-				? `${process.env.STORAGE_URL}/images/${article.image}`
+				? `${article.image}`
 				: null;
 
 			return article;
