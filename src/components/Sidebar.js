@@ -9,6 +9,7 @@ import {
   FaClipboardCheck,
   FaSignOutAlt,
 } from "react-icons/fa";
+import Logo from "../assets/Wellness Plate Main Logo 2400x1800.png";
 import { Link, useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
@@ -21,7 +22,7 @@ const Sidebar = () => {
     <div className="flex flex-col h-screen p-3 bg-white shadow w-60">
       <div className="space-y-3">
         <div className="flex items-center">
-          <h2 className="text-xl font-bold">Dashboard</h2>
+          <img src={Logo} alt="logo" />
         </div>
         <div className="flex-1">
           <ul className="pt-2 pb-4 space-y-1 text-sm">

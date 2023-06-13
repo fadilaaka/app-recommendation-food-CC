@@ -4,7 +4,9 @@ import Sidebar from "../components/Sidebar";
 import axios from "axios";
 
 const Dashboard = () => {
-  const url = "http://localhost:5000";
+  // const url = "http://localhost:5000";
+  const url = "https://nutrimenu-iwz5mppixq-et.a.run.app";
+
   const [jumlah, setJumlah] = useState();
 
   useEffect(() => {

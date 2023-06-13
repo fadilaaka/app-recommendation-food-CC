@@ -13,7 +13,8 @@ const Users = () => {
   const [loading, setLoading] = useState(false);
   const [modalConfirmDelete, setModalConfirmDelete] = useState(false);
 
-  const url = "http://localhost:5000";
+  // const url = "http://localhost:5000";
+  const url = "https://nutrimenu-iwz5mppixq-et.a.run.app";
 
   useEffect(() => {
     setLoading(true);

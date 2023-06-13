@@ -9,7 +9,8 @@ const Login = () => {
   const [isError, setIsError] = useState();
 
   const navigate = useNavigate();
-  const url = "http://localhost:5000";
+  // const url = "http://localhost:5000";
+  const url = "https://nutrimenu-iwz5mppixq-et.a.run.app";
 
   const loginAkun = async (e) => {
     try {

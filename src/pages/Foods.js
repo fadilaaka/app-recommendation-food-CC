@@ -16,7 +16,8 @@ const Foods = () => {
   const [status, setStatus] = useState();
   const [showStatus, setShowStatus] = useState(false);
 
-  const url = "http://localhost:5000";
+  const url = "http://localhost:8080";
+  // const url = "https://nutrimenu-iwz5mppixq-et.a.run.app";
 
   useEffect(() => {
     setLoading(true);
@@ -68,37 +69,37 @@ const Foods = () => {
     },
     {
       name: "name",
-      selector: (row) => row.food.name,
+      selector: (row) => row.name,
       sortable: true,
     },
     {
       name: "tags",
-      selector: (row) => row.food.foodTags.name,
+      selector: (row) => row.foodTagsOnFood[0].foodTags.name,
       sortable: true,
     },
     {
       name: "calories",
-      selector: (row) => row.calories,
+      selector: (row) => row.foodDetail[0].calories,
       sortable: true,
     },
     {
       name: "carbohidrat",
-      selector: (row) => row.carbohidrat,
+      selector: (row) => row.foodDetail[0].carbohidrat,
       sortable: true,
     },
     {
       name: "fat",
-      selector: (row) => row.fat,
+      selector: (row) => row.foodDetail[0].fat,
       sortable: true,
     },
     {
       name: "protein",
-      selector: (row) => row.protein,
+      selector: (row) => row.foodDetail[0].protein,
       sortable: true,
     },
     {
       name: "price",
-      selector: (row) => row.food.price,
+      selector: (row) => row.price,
       sortable: true,
     },
   ];
@@ -115,45 +116,45 @@ const Foods = () => {
             <b>uuid</b>: {data.uuid}
           </li>
           <li>
-            <b>Name</b>: {data.food.name}{" "}
+            <b>Name</b>: {data.name}{" "}
           </li>
           <li>
-            <b>Tags</b>: {data.food.foodTags.name}{" "}
+            <b>Tags</b>: {data.foodTagsOnFood[0].foodTags.name}{" "}
           </li>
           <li>
-            <b>Calories</b>: {data.calories}{" "}
+            <b>Calories</b>: {data.foodDetail[0].calories}{" "}
           </li>
           <li>
-            <b>Carbohidrat</b>: {data.carbohidrat}{" "}
+            <b>Carbohidrat</b>: {data.foodDetail[0].carbohidrat}{" "}
           </li>
           <li>
-            <b>Fat</b>: {data.fat}{" "}
+            <b>Fat</b>: {data.foodDetail[0].fat}{" "}
           </li>
           <li>
-            <b>Protein</b>: {data.protein}{" "}
+            <b>Protein</b>: {data.foodDetail[0].protein}{" "}
           </li>
           <li>
             <b>Image</b>:{" "}
             <a
               className="text-sky-300 hover:underline hover:text-sky-500"
               target="_blank"
-              href={data.food.image}
+              href={data.image}
               rel="noreferrer"
             >
-              {data.food.image}
+              {data.image}
             </a>
           </li>
           <li>
-            <b>Price</b>: {data.food.price}{" "}
+            <b>Price</b>: {data.price}{" "}
           </li>
           <li>
-            <b>Status</b>: {data.food.status}
+            <b>Status</b>: {data.status}
           </li>
           <li>
-            <b>Description</b>: {data.food.description}
+            <b>Description</b>: {data.description}
           </li>
           <li>
-            <b>Recipe</b>: {data.foodRecipe.description}
+            <b>Recipe</b>: {data.foodRecipe[0].description}
           </li>
           <li>
             <b>CreatedAt</b>: {data.createdAt}

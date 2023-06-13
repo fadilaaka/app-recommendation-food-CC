@@ -16,7 +16,8 @@ const Articles = () => {
   const [status, setStatus] = useState();
   const [showStatus, setShowStatus] = useState(false);
 
-  const url = "http://localhost:5000";
+  // const url = "http://localhost:5000";
+  const url = "https://nutrimenu-iwz5mppixq-et.a.run.app";
 
   useEffect(() => {
     setLoading(true);
@@ -26,7 +27,7 @@ const Articles = () => {
 
   const getApiViewArticles = async () => {
     const result = await axios.get(`${url}/api/v1/admin/get-articles`);
-    // console.log(result);
+    console.log(result);
     setDataArticle(result.data.articles);
     setLoading(false);
   };
@@ -107,7 +108,7 @@ const Articles = () => {
             <b>Status</b>: {data.status}
           </li>
           <li>
-            <b>Article Category</b>: {data.articleCategory.name}
+            <b>Article Category</b>: {data.articleCategory}
           </li>
           <li>
             <b>Description</b>: {data.description}
