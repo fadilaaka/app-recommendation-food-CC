@@ -61,23 +61,7 @@ def predict_class(model, images):
 
 @app.route('/')
 def hello():
-    image1 = ['./dodolgarut.jpg']
-    image2 = ['./miebakso.jpg']
-    image3 = ['./nasigoreng.jpg']
-    predict1 = predict_class(model_best, image1)
-    predict2 = predict_class(model_best, image2)
-    predict3 = predict_class(model_best, image3)
-    return {"data": [
-        {
-            "foto1": predict1
-        },
-        {
-            "foto2": predict2
-        },
-        {
-            "foto3": predict3
-        }
-    ]}
+    return {"data": "Active Hello"}
 
 # @app.route('/check-image')
 # def checkimage():
