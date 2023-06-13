@@ -1,4 +1,6 @@
 import os
+import io
+import requests
 import pandas as pd
 import numpy as np
 import logging
@@ -6,6 +8,7 @@ import fileapp
 import urllib
 from flask import Flask, request
 from flask_cors import CORS
+from PIL import Image
 from tensorflow import keras
 from google.cloud import storage
 from fileobjects import DisplayInfo
@@ -76,6 +79,22 @@ def hello():
         }
     ]}
 
+# @app.route('/check-image')
+# def checkimage():
+#     response = requests.get("https://storage.googleapis.com/image-recogfavamn612211314/ikan.jpeg", stream=True)
+#     response.raise_for_status()
+#     with open("temp-image.jpg", "wb") as file:
+#         for chunk in response.iter_content(chunk_size=8192):
+#             file.write(chunk)
+#     image = ['./temp-image.jpg']
+#     predict = predict_class(model_best, image)
+#     return {"data":
+#         {
+#             "fotoUrl": f"https://storage.googleapis.com/image-recogfavamn612211314/ikan.jpeg",
+#             "predict": predict,
+#         },
+#     }
+
 
 @app.route('/upload-image-food', methods=['GET', 'POST'])
 def uploadImageFood():
@@ -85,25 +104,25 @@ def uploadImageFood():
         client = storage.Client(project_id)
         bucket = client.get_bucket(bucket_name)
         blob = bucket.blob(uploaded_file.filename)
+        content = uploaded_file.content_type
+        blob.upload_from_string(uploaded_file.read(), content_type=content)
+        
+        response = requests.get(f"{bucket_url}/{uploaded_file.filename}", stream=True)
+        response.raise_for_status()
+        with open("temp-image.jpg", "wb") as file:
+            for chunk in response.iter_content(chunk_size=8192):
+                file.write(chunk)
+        image = [f'./temp-image.jpg']
+        predict = predict_class(model_best, image)
 
-        try:
-            content = uploaded_file.content_type
-            blob.upload_from_string(uploaded_file.read(), content_type=content)
+        return {"data":
+                {
+                    "predict": predict,
+                    "imageUrl": f"{bucket_url}/{uploaded_file.filename}",
+                },
+                }
 
-            image = [f'{uploaded_file.filename}']
-            predict = predict_class(model_best, image)
 
-            return {"data":
-                    {
-                        "predict": predict,
-                        "imageUrl": f"{bucket_url}/{uploaded_file.filename}",
-                    },
-                    }
-
-        except Exception as e:
-            # Handle any exceptions that occur during the upload process
-            error_message = str(e)
-            return {"error": error_message}, 500
 
 
 if __name__ == '__main__':
