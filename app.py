@@ -314,15 +314,26 @@ def hello():
 @app.route('/foods-recommendation', methods=['GET', 'POST'])
 def foods_recommendation():
     if request.method == 'POST':
-        usia_user = request.form['usia_user']
-        berat_badan = request.form['berat_badan']
-        tinggi_badan = request.form['tinggi_badan']
-        jenis_kelamin = request.form['jenis_kelamin']
-        riwayat_penyakit = request.form['riwayat_penyakit']
-        riwayat_alergi = request.form['riwayat_alergi']
-        faktor_aktivitas = request.form['faktor_aktivitas']
-        faktor_stress = request.form['faktor_stress']
-        dislike_food = request.form['dislike_food']
+        data = request.get_json(force=True)
+        # usia_user = request.form['usia_user']
+        # berat_badan = request.form['berat_badan']
+        # tinggi_badan = request.form['tinggi_badan']
+        # jenis_kelamin = request.form['jenis_kelamin']
+        # riwayat_penyakit = request.form['riwayat_penyakit']
+        # riwayat_alergi = request.form['riwayat_alergi']
+        # faktor_aktivitas = request.form['faktor_aktivitas']
+        # faktor_stress = request.form['faktor_stress']
+        # dislike_food = request.form['dislike_food']
+        print(data)
+        usia_user = data.get('usia_user', '')
+        berat_badan = data.get('berat_badan', '')
+        tinggi_badan = data.get('tinggi_badan', '')
+        jenis_kelamin = data.get('jenis_kelamin', '')
+        riwayat_penyakit = data.get('riwayat_penyakit', '')
+        riwayat_alergi = data.get('riwayat_alergi', '')
+        faktor_aktivitas = data.get('faktor_aktivitas', '')
+        faktor_stress = data.get('faktor_stress', '')
+        dislike_food = data.get('dislike_food', '')
         new_users = [
             {
                 'Usia': float(usia_user),
